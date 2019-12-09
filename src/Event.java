@@ -63,6 +63,24 @@ public class Event {
         targetCard.setHealth(targetCard.getHealth() + healAmount);
     }
 
+    public void healRandomTargets(int numberOfTargets, int healAmount, boolean onlySelf) {
+        ArrayList<ArrayList<Card>> twoDimensional = Table.getCards();
+
+        if (!onlySelf) {
+            int targetPlayer = random.nextInt(1);
+            ArrayList<Card> cardsOfTargetPlayer = twoDimensional.get(targetPlayer);
+            int targetCardIndex = random.nextInt(cardsOfTargetPlayer.size());
+            Card targetCard = cardsOfTargetPlayer.get(targetCardIndex);
+            targetCard.setHealth(targetCard.getHealth() + healAmount);
+        } else {
+            int targetPlayer = user.getID();
+            ArrayList<Card> cardsOfTargetPlayer = twoDimensional.get(targetPlayer);
+            int targetCardIndex = random.nextInt(cardsOfTargetPlayer.size());
+            Card targetCard = cardsOfTargetPlayer.get(targetCardIndex);
+            targetCard.setHealth(targetCard.getHealth() + healAmount);
+        }
+    }
+
     public void spawnMinionCard(int numberOfMinionsToBeSpawned, int damage, int health) {
         for (int i = 0; i < numberOfMinionsToBeSpawned; i++) {
             cardToBeSpawned = DefaultCards.getCards().get(61);
@@ -77,10 +95,10 @@ public class Event {
         defender.setHealth(defender.getHealth() - attacker.getDamage());
 
         if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
-            activateDeathRattle(card);
+            activateDeathRattle(attacker);
 
         if (defender.getHealth() <= 0 && defender.getEvent().equals("DR"))
-            activateDeathRattle(card);
+            activateDeathRattle(defender);
     }
 
     public void activateDeathRattle(Card card) {
@@ -90,7 +108,7 @@ public class Event {
 //                Object[] event = {"DamageTarget", 1};
 //                Object[] event = {"DamageRandomTargets", 2, 1, false};
 
-        switch (eventDetails.get(0)) {
+        switch ((String)eventDetails.get(0)) {
             case "DamageEveryone":
                 damageEveryone((int)eventDetails.get(1));
                 break;
@@ -98,16 +116,16 @@ public class Event {
                 damageTarget(new Card(), (int)eventDetails.get(1));
                 break;
             case "DamageRandomTargets":
-                damageRandomTargets(eventDetails.get());
+                damageRandomTargets((int)eventDetails.get(1), (int)eventDetails.get(2), (boolean)eventDetails.get(3));
                 break;
             case "HealEveryone":
-
+                healEveryone((int)(eventDetails.get(1)));
                 break;
             case "HealTarget":
-
+                healTarget(new Card(), (int)eventDetails.get(1));
                 break;
             case "HealRandomTargets":
-
+                healRandomTargets((int)eventDetails.get(1), (int)eventDetails.get(2), (boolean)eventDetails.get(3));
                 break;
         }
     }

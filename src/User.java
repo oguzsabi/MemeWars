@@ -1,3 +1,10 @@
 public class User {
-    private id;
+    private int id;
+    private int health;
+    private int banana;
+    private String name;
+    private Event event;
+    private Hand hand;
+    private Deck deck;
+
 }
