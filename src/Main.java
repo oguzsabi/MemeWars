@@ -1,11 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        Event event = new Event();
-        System.out.println("Wow.");
-        System.out.println("Hello.");
+        DefaultCards defaultCards = new DefaultCards();
 
-        Card card = new Card();
-        Card card2 = new Card();
-        event.battle(card, card2);
+        System.out.println(defaultCards.cards.get(0));
     }
 }

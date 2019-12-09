@@ -4,11 +4,19 @@ public class Card {
     private int banana;
     private int damage;
     private int health;
-    private String event;
-    private ArrayList<Object> eventDetails;
     private boolean attackable;
     private boolean active;
     private Card target;
+    private ArrayList<Object> effectDetails;
+
+    public Card(int banana, int damage, int health, boolean attackable, boolean active, ArrayList<Object> effectDetails) {
+        this.banana = banana;
+        this.damage = damage;
+        this.health = health;
+        this.attackable = attackable;
+        this.active = active;
+        this.effectDetails = effectDetails;
+    }
 
     public int getBanana() {
         return banana;
@@ -34,20 +42,12 @@ public class Card {
         this.health = health;
     }
 
-    public String getEvent() {
-        return event;
+    public ArrayList<Object> getEffectDetails() {
+        return effectDetails;
     }
 
-    public void setEvent(String event) {
-        this.event = event;
-    }
-
-    public ArrayList<Object> getEventDetails() {
-        return eventDetails;
-    }
-
-    public void setEventDetails(ArrayList<Object> eventDetails) {
-        this.eventDetails = eventDetails;
+    public void setEffectDetails(ArrayList<Object> effectDetails) {
+        this.effectDetails = effectDetails;
     }
 
     public boolean isAttackable() {
@@ -72,5 +72,10 @@ public class Card {
 
     public void setTarget(Card target) {
         this.target = target;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Banana: %d, Damage: %d, Health: %d, Attackable: %b, Active: %b", banana, damage, health, attackable, active);
     }
 }
