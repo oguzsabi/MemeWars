@@ -6,6 +6,6 @@ public class Main {
 
         Card card = new Card();
         Card card2 = new Card();
-        event.attack(card, card2);
+        event.battle(card, card2);
     }
 }

@@ -6,14 +6,21 @@ public class Event {
     private final String eventAttack = "Attack";
     private final String eventDefense = "Defense";
     private final String eventPlay = "Play";
+
+    private User user;
     SecureRandom random;
+
+    public Event(User user) {
+        this.user = user;
+    }
 
     public void damageEveryone(int damageAmount) {
         ArrayList<ArrayList<Card>> twoDimensional = Table.getCards();
         for (ArrayList player: twoDimensional) {
-            for (Card card: player) {
+            for (int i = 0; i < player.size(); i++) {
+                Card card = (Card) player.get(i);
                 card.setHealth(card.getHealth() - damageAmount);
-                if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
+                if (card.getHealth() <= 0 && card.getEvent().equals("DR"))
                     activateDeathRattle(card);
             }
         }
@@ -22,8 +29,8 @@ public class Event {
     public void damageTarget(Card targetCard, int damageAmount) {
         targetCard.setHealth(targetCard.getHealth() - damageAmount);
 
-        if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
-            activateDeathRattle(card);
+        if (targetCard.getHealth() <= 0 && targetCard.getEvent().equals("DR"))
+            activateDeathRattle(targetCard);
     }
 
     public void damageRandomTargets(int numberOfTargets, int damageAmount, boolean onlyOpponent) {
@@ -36,8 +43,8 @@ public class Event {
             Card targetCard = cardsOfTargetPlayer.get(targetCardIndex);
             targetCard.setHealth(targetCard.getHealth() - damageAmount);
 
-            if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
-                activateDeathRattle(card);
+            if (targetCard.getHealth() <= 0 && targetCard.getEvent().equals("DR"))
+                activateDeathRattle(targetCard);
         } else {
             int targetPlayer = user.getID();
             ArrayList<Card> cardsOfTargetPlayer = twoDimensional.get(targetPlayer);
@@ -45,8 +52,8 @@ public class Event {
             Card targetCard = cardsOfTargetPlayer.get(targetCardIndex);
             targetCard.setHealth(targetCard.getHealth() - damageAmount);
 
-            if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
-                activateDeathRattle(card);
+            if (targetCard.getHealth() <= 0 && targetCard.getEvent().equals("DR"))
+                activateDeathRattle(targetCard);
         }
     }
 
@@ -83,7 +90,7 @@ public class Event {
 
     public void spawnMinionCard(int numberOfMinionsToBeSpawned, int damage, int health) {
         for (int i = 0; i < numberOfMinionsToBeSpawned; i++) {
-            cardToBeSpawned = DefaultCards.getCards().get(61);
+            Card cardToBeSpawned = DefaultCards.getCards().get(61);
             cardToBeSpawned.setHealth(health);
             cardToBeSpawned.setDamage(damage);
             Table.getCards().get(0).add(cardToBeSpawned);
