@@ -18,6 +18,15 @@ public class Card {
         this.effectDetails = effectDetails;
     }
 
+    public Card(ArrayList<Object> cardDetails) {
+        this.banana = (int) cardDetails.get(0);
+        this.damage = (int) cardDetails.get(1);
+        this.health = (int) cardDetails.get(2);
+        this.attackable = (boolean) cardDetails.get(3);
+        this.active = (boolean) cardDetails.get(4);
+        this.effectDetails = (ArrayList<Object>) cardDetails.get(5);
+    }
+
     public int getBanana() {
         return banana;
     }

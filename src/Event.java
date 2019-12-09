@@ -7,8 +7,6 @@ public class Event {
     private final String eventDefense = "Defense";
     private final String eventPlay = "Play";
 
-
-
     private User user;
     SecureRandom random;
 
@@ -109,8 +107,15 @@ public class Event {
     }
 
     public void battle(Card attacker, Card defender) {
+        System.out.println("in battle");
+        attacker.setTarget(defender);
+        defender.setTarget(attacker);
+
+        System.out.println(defender.getDamage());
+
         attacker.setHealth(attacker.getHealth() - defender.getDamage());
-        defender.setHealth(defender.getHealth() - attacker.getDamage());
+        if (attacker.hashCode() != defender.hashCode())
+            defender.setHealth(defender.getHealth() - attacker.getDamage());
 
         if (attacker.getHealth() <= 0)
             activateCardEffect(attacker);
@@ -120,6 +125,7 @@ public class Event {
     }
 
     public void activateCardEffect(Card card) {
+        System.out.println("in card effect of " + card);
         ArrayList<Object> effectDetails = card.getEffectDetails();
 //                Object[] event = {"DamageEveryone", 1};
 //                Object[] event = {"DamageTarget", 1};
@@ -131,6 +137,7 @@ public class Event {
                     damageEveryone((int)effectDetails.get(1));
                     break;
                 case "DamageTarget":
+                    System.out.println("in case");
                     damageTarget(card.getTarget(), (int)effectDetails.get(1));
                     break;
                 case "DamageRandomTargets":
@@ -145,8 +152,12 @@ public class Event {
                 case "HealRandomTargets":
                     healRandomTargets((int)effectDetails.get(1), (int)effectDetails.get(2), (boolean)effectDetails.get(3));
                     break;
+                case "DecreaseDamageOfEveryone":
+
+                    break;
                 case "SpawnMinion":
                     spawnMinion((int)effectDetails.get(1), (int)effectDetails.get(2), (int)effectDetails.get(3));
+                    break;
             }
         }
     }
