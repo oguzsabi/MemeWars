@@ -1,3 +1,4 @@
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class Event {
@@ -5,8 +6,9 @@ public class Event {
     private final String eventAttack = "Attack";
     private final String eventDefense = "Defense";
     private final String eventPlay = "Play";
+    SecureRandom random;
 
-    public void doDamageToEveryone(int damageAmount) {
+    public void damageEveryone(int damageAmount) {
         ArrayList<ArrayList<Card>> twoDimensional = Table.getCards();
         for (ArrayList player: twoDimensional) {
             for (Card card: player) {
@@ -17,8 +19,48 @@ public class Event {
         }
     }
 
-    public void doDamageToTarget(Card targetCard, int damageAmount) {
+    public void damageTarget(Card targetCard, int damageAmount) {
         targetCard.setHealth(targetCard.getHealth() - damageAmount);
+
+        if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
+            activateDeathRattle(card);
+    }
+
+    public void damageRandomTargets(int numberOfTargets, int damageAmount, boolean onlyOpponent) {
+        ArrayList<ArrayList<Card>> twoDimensional = Table.getCards();
+
+        if (!onlyOpponent) {
+            int targetPlayer = random.nextInt(1);
+            ArrayList<Card> cardsOfTargetPlayer = twoDimensional.get(targetPlayer);
+            int targetCardIndex = random.nextInt(cardsOfTargetPlayer.size());
+            Card targetCard = cardsOfTargetPlayer.get(targetCardIndex);
+            targetCard.setHealth(targetCard.getHealth() - damageAmount);
+
+            if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
+                activateDeathRattle(card);
+        } else {
+            int targetPlayer = user.getID();
+            ArrayList<Card> cardsOfTargetPlayer = twoDimensional.get(targetPlayer);
+            int targetCardIndex = random.nextInt(cardsOfTargetPlayer.size());
+            Card targetCard = cardsOfTargetPlayer.get(targetCardIndex);
+            targetCard.setHealth(targetCard.getHealth() - damageAmount);
+
+            if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
+                activateDeathRattle(card);
+        }
+    }
+
+    public void healEveryone(int healAmount) {
+        ArrayList<ArrayList<Card>> twoDimensional = Table.getCards();
+        for (ArrayList player: twoDimensional) {
+            for (Card card: player) {
+                card.setHealth(card.getHealth() + healAmount);
+            }
+        }
+    }
+
+    public void healTarget(Card targetCard, int healAmount) {
+        targetCard.setHealth(targetCard.getHealth() + healAmount);
     }
 
     public void spawnMinionCard(int numberOfMinionsToBeSpawned, int damage, int health) {
@@ -30,26 +72,43 @@ public class Event {
         }
     }
 
-    public void attack(Card attacker, Card defender) {
+    public void battle(Card attacker, Card defender) {
         attacker.setHealth(attacker.getHealth() - defender.getDamage());
         defender.setHealth(defender.getHealth() - attacker.getDamage());
 
         if (attacker.getHealth() <= 0 && attacker.getEvent().equals("DR"))
             activateDeathRattle(card);
+
+        if (defender.getHealth() <= 0 && defender.getEvent().equals("DR"))
+            activateDeathRattle(card);
     }
 
     public void activateDeathRattle(Card card) {
 
-        String[] eventDetails = card.getEvent();
+        ArrayList<Object> eventDetails = card.getEventDetails();
 //                Object[] event = {"DamageEveryone", 1};
 //                Object[] event = {"DamageTarget", 1};
+//                Object[] event = {"DamageRandomTargets", 2, 1, false};
 
-        switch (eventDetails[0]) {
+        switch (eventDetails.get(0)) {
             case "DamageEveryone":
-                doDamageToEveryone(eventDetails[1]);
+                damageEveryone((int)eventDetails.get(1));
                 break;
             case "DamageTarget":
-                doDamageToTarget("defender", eventDetails[1]);
+                damageTarget(new Card(), (int)eventDetails.get(1));
+                break;
+            case "DamageRandomTargets":
+                damageRandomTargets(eventDetails.get());
+                break;
+            case "HealEveryone":
+
+                break;
+            case "HealTarget":
+
+                break;
+            case "HealRandomTargets":
+
+                break;
         }
     }
 }
