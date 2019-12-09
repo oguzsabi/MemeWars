@@ -6,7 +6,7 @@ public class Event {
     private final String eventAttack = "Attack";
     private final String eventDefense = "Defense";
     private final String eventPlay = "Play";
-
+    private boolean effectActivated = true;
     private User user;
     SecureRandom random;
 
@@ -28,7 +28,6 @@ public class Event {
 
     public void damageTarget(Card targetCard, int damageAmount) {
         targetCard.setHealth(targetCard.getHealth() - damageAmount);
-
         if (targetCard.getHealth() <= 0)
             activateCardEffect(targetCard);
     }
@@ -111,7 +110,8 @@ public class Event {
         attacker.setTarget(defender);
         defender.setTarget(attacker);
 
-        System.out.println(defender.getDamage());
+        System.out.println("Attacker Damage :" + attacker.getDamage());
+        System.out.println("Defender Damage :" + defender.getDamage());
 
         attacker.setHealth(attacker.getHealth() - defender.getDamage());
         if (attacker.hashCode() != defender.hashCode())
@@ -125,37 +125,44 @@ public class Event {
     }
 
     public void activateCardEffect(Card card) {
-        System.out.println("in card effect of " + card);
+
+        System.out.println("Card effect of " + card + " is activated.");
         ArrayList<Object> effectDetails = card.getEffectDetails();
 //                Object[] event = {"DamageEveryone", 1};
 //                Object[] event = {"DamageTarget", 1};
 //                Object[] event = {"DamageRandomTargets", 2, 1, false};
 
-        if (effectDetails != null) {
+        if (effectDetails != null && effectActivated) {
             switch ((String)effectDetails.get(0)) {
                 case "DamageEveryone":
+                    effectActivated = false;
                     damageEveryone((int)effectDetails.get(1));
                     break;
                 case "DamageTarget":
-                    System.out.println("in case");
+                    effectActivated = false;
                     damageTarget(card.getTarget(), (int)effectDetails.get(1));
                     break;
                 case "DamageRandomTargets":
+                    effectActivated = false;
                     damageRandomTargets((int)effectDetails.get(1), (int)effectDetails.get(2), (boolean)effectDetails.get(3));
                     break;
                 case "HealEveryone":
+                    effectActivated = false;
                     healEveryone((int)(effectDetails.get(1)));
                     break;
                 case "HealTarget":
+                    effectActivated = false;
                     healTarget(card.getTarget(), (int)effectDetails.get(1));
                     break;
                 case "HealRandomTargets":
+                    effectActivated = false;
                     healRandomTargets((int)effectDetails.get(1), (int)effectDetails.get(2), (boolean)effectDetails.get(3));
                     break;
                 case "DecreaseDamageOfEveryone":
 
                     break;
                 case "SpawnMinion":
+                    effectActivated = false;
                     spawnMinion((int)effectDetails.get(1), (int)effectDetails.get(2), (int)effectDetails.get(3));
                     break;
             }
