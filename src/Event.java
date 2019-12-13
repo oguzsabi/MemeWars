@@ -161,68 +161,68 @@ public class Event {
         if (attacker.hashCode() != defender.hashCode())
             defender.setHealth(defender.getHealth() - attacker.getDamage());
 
-        if (attacker.getHealth() <= 0)
+        if (attacker.getHealth() <= 0) // DR
             activateCardEffect(attacker);
 
-        if (defender.getHealth() <= 0)
+        if (defender.getHealth() <= 0) // DR
             activateCardEffect(defender);
     }
 
     public void activateCardEffect(Card card) {
 
-        System.out.println("Card effect of " + card + " is activated.");
         ArrayList<Object> effectDetails = card.getEffectDetails();
 //                Object[] event = {"DamageEveryone", 1};
 //                Object[] event = {"DamageTarget", 1};
 //                Object[] event = {"DamageRandomTargets", 2, 1, false};
 
-        if (effectDetails != null && effectActivated) {
+        if (effectDetails != null && card.isEffectNotActivated()) {
+            System.out.println("Card effect of " + card + " is activated.");
             switch ((String)effectDetails.get(0)) {
                 case "DamageEveryone":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     damageEveryone((int)effectDetails.get(1));
                     break;
                 case "DamageTarget":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     damageTarget(card.getTarget(), (int)effectDetails.get(1));
                     break;
                 case "DamageRandomTargets":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     damageRandomTargets((int)effectDetails.get(1), (int)effectDetails.get(2), (boolean)effectDetails.get(3));
                     break;
                 case "HealEveryone":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     healEveryone((int)(effectDetails.get(1)));
                     break;
                 case "HealTarget":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     healTarget(card.getTarget(), (int)effectDetails.get(1));
                     break;
                 case "HealRandomTargets":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     healRandomTargets((int)effectDetails.get(1), (int)effectDetails.get(2), (boolean)effectDetails.get(3));
                     break;
                 case "DecreaseDamageOfTarget":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     decreaseDamageOfTarget(card.getTarget(), (int)effectDetails.get(1));
                     break;
                 case "DecreaseDamageEveryone":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     decreaseDamageOfEveryone((int)effectDetails.get(1));
                     break;
                 case "DecreaseDamageEnemy":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     decreaseDamageOfEnemy((int)effectDetails.get(1));
                     break;
                 case "DecreaseDamageEnemyRandom":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     decreaseDamageOfEnemyRandom((int)effectDetails.get(1));
                 case "SpawnMinion":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     spawnMinion((int)effectDetails.get(1), (int)effectDetails.get(2), (int)effectDetails.get(3));
                     break;
                 case "MindControlRandom":
-                    effectActivated = false;
+                    card.setEffectNotActivated(false);
                     mindControlRandom();
                     break;
 

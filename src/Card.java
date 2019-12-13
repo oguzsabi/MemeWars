@@ -6,15 +6,17 @@ public class Card {
     private int health;
     private boolean attackable;
     private boolean active;
+    private boolean effectNotActivated;
     private Card target;
     private ArrayList<Object> effectDetails;
 
-    public Card(int banana, int damage, int health, boolean attackable, boolean active, ArrayList<Object> effectDetails) {
+    public Card(int banana, int damage, int health, boolean attackable, boolean active, boolean effectNotActivated, ArrayList<Object> effectDetails) {
         this.banana = banana;
         this.damage = damage;
         this.health = health;
         this.attackable = attackable;
         this.active = active;
+        this.effectNotActivated = effectNotActivated;
         this.effectDetails = effectDetails;
     }
 
@@ -24,7 +26,8 @@ public class Card {
         this.health = (int) cardDetails.get(2);
         this.attackable = (boolean) cardDetails.get(3);
         this.active = (boolean) cardDetails.get(4);
-        this.effectDetails = (ArrayList<Object>) cardDetails.get(5);
+        this.effectNotActivated = (boolean)cardDetails.get(5);
+        this.effectDetails = (ArrayList<Object>) cardDetails.get(6);
     }
 
     public int getBanana() {
@@ -81,6 +84,14 @@ public class Card {
 
     public void setTarget(Card target) {
         this.target = target;
+    }
+
+    public boolean isEffectNotActivated() {
+        return effectNotActivated;
+    }
+
+    public void setEffectNotActivated(boolean effectNotActivated) {
+        this.effectNotActivated = effectNotActivated;
     }
 
     @Override
