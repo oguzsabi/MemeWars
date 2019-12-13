@@ -2,6 +2,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class Event {
+    // 0 kendisi 1 enemy
     private final String eventDeath = "Death";
     private final String eventAttack = "Attack";
     private final String eventDefense = "Defense";
@@ -91,7 +92,18 @@ public class Event {
             }
         }
     }
-
+    public void mindControlRandom(){
+        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+        int enemyCardnumber = twoDimensional.get(1).size();
+        int randomEnemyCard = random.nextInt(enemyCardnumber);
+        if(twoDimensional.get(0).size()==6){
+            // Promt user about Not geting the card because of card limit
+        }
+        else{
+            twoDimensional.get(0).add(twoDimensional.get(1).get(randomEnemyCard));
+            twoDimensional.get(1).remove(randomEnemyCard);
+        }
+    }
     public void spawnMinion(int numberOfMinionsToBeSpawned, int damage, int health) {
         for (int i = 0; i < numberOfMinionsToBeSpawned; i++) {
             Card cardToBeSpawned = DefaultCards.defaultMinion;
@@ -102,7 +114,39 @@ public class Event {
     }
 
     public void decreaseDamageOfEveryone(int decreaseAmount) {
+        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+        for(int i=0;i<twoDimensional.size();i++){
+           for(int j=0;j<twoDimensional.get(i).size();j++){
+               twoDimensional.get(i).get(j).setDamage(twoDimensional.get(i).get(j).getDamage()-decreaseAmount);
+           }
+        }
 
+        for(ArrayList<Card> user: twoDimensional){
+            for(Card card: user){
+                card.setDamage(card.getDamage()-decreaseAmount);
+            }
+        }
+    }
+
+    public void decreaseDamageOfEnemy(int damageAmount){
+        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+        for(int i=0;i<twoDimensional.get(1).size();i++){
+            twoDimensional.get(1).get(i).setDamage(twoDimensional.get(1).get(i).getDamage()- damageAmount);
+        }
+
+    }
+
+    public void decreaseDamageOfTarget(Card targetCard, int damageAmount){
+        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+        targetCard.setDamage(targetCard.getDamage() - damageAmount);
+    }
+
+    public void decreaseDamageOfEnemyRandom(int damageAmount){
+        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+        int randomEnemyCard = random.nextInt(twoDimensional.get(1).size());
+        for(int i=0;i<twoDimensional.get(1).size();i++){
+            twoDimensional.get(1).get(randomEnemyCard).setDamage(twoDimensional.get(1).get(randomEnemyCard).getDamage() - damageAmount);
+        }
     }
 
     public void battle(Card attacker, Card defender) {
@@ -158,13 +202,30 @@ public class Event {
                     effectActivated = false;
                     healRandomTargets((int)effectDetails.get(1), (int)effectDetails.get(2), (boolean)effectDetails.get(3));
                     break;
-                case "DecreaseDamageOfEveryone":
-
+                case "DecreaseDamageOfTarget":
+                    effectActivated = false;
+                    decreaseDamageOfTarget(card.getTarget(), (int)effectDetails.get(1));
                     break;
+                case "DecreaseDamageEveryone":
+                    effectActivated = false;
+                    decreaseDamageOfEveryone((int)effectDetails.get(1));
+                    break;
+                case "DecreaseDamageEnemy":
+                    effectActivated = false;
+                    decreaseDamageOfEnemy((int)effectDetails.get(1));
+                    break;
+                case "DecreaseDamageEnemyRandom":
+                    effectActivated = false;
+                    decreaseDamageOfEnemyRandom((int)effectDetails.get(1));
                 case "SpawnMinion":
                     effectActivated = false;
                     spawnMinion((int)effectDetails.get(1), (int)effectDetails.get(2), (int)effectDetails.get(3));
                     break;
+                case "MindControlRandom":
+                    effectActivated = false;
+                    mindControlRandom();
+                    break;
+
             }
         }
     }
