@@ -141,6 +141,18 @@ public class Event {
             twoDimensional.get(1).get(randomEnemyCard).setDamage(twoDimensional.get(1).get(randomEnemyCard).getDamage() - damageAmount);
         }
     }
+
+    public void destroyEnemyCard(Card targetCard){
+        targetCard.setHealth(0);
+        activateCardEffect(targetCard);
+    }
+
+    public void destroyRandomEnemyCard(){
+        int enemyCardSize = twoDimensional.get(1).size();
+        int targetCard = random.nextInt(enemyCardSize);
+        twoDimensional.get(1).get(targetCard).setHealth(0);
+        activateCardEffect(twoDimensional.get(1).get(targetCard));
+    }
     public void play(Card played, Card target){
 //        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         //twoDimensional.get(1).add(played);
@@ -224,6 +236,14 @@ public class Event {
                     card.setEffectNotActivated(false);
                     mindControlRandom();
                     break;
+                case "DestroyRandomEnemyCard":
+                    card.setEffectNotActivated(false);
+                    destroyRandomEnemyCard();
+                    break;
+                case "DestroyEnemyCard":
+                    card.setEffectNotActivated(false);
+                    destroyEnemyCard(card.getTarget());
+                    break;
 
             }
         }
@@ -295,6 +315,16 @@ public class Event {
                     card.setFirstTimePlayed(false);
 
                     mindControlRandom();
+                    break;
+                case "DestroyRandomEnemyCard":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+                    destroyRandomEnemyCard();
+                    break;
+                case "DestroyEnemyCard":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+                    destroyEnemyCard(card.getTarget());
                     break;
 
             }
