@@ -7,6 +7,8 @@ public class Main {
         System.out.println("Card: 1 " + defaultCards.cards.get(1));
         System.out.println("Card: 2 " + defaultCards.cards.get(2));
 
+        event.play(defaultCards.cards.get(1),defaultCards.cards.get(1));
+        event.play(defaultCards.cards.get(2), defaultCards.cards.get(1));
         event.battle(defaultCards.cards.get(1), defaultCards.cards.get(2));
 
         System.out.println("Card: 1 " + defaultCards.cards.get(1));

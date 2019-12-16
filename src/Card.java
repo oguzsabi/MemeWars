@@ -4,19 +4,23 @@ public class Card {
     private int banana;
     private int damage;
     private int health;
+    private String effectType;
     private boolean attackable;
     private boolean active;
     private boolean effectNotActivated;
+    private boolean firstTimePlayed;
     private Card target;
     private ArrayList<Object> effectDetails;
 
-    public Card(int banana, int damage, int health, boolean attackable, boolean active, boolean effectNotActivated, ArrayList<Object> effectDetails) {
+    public Card(int banana, int damage, int health, String effectType, boolean attackable, boolean active, boolean effectNotActivated,boolean firstTimePlayed, ArrayList<Object> effectDetails) {
         this.banana = banana;
         this.damage = damage;
         this.health = health;
+        this.effectType = effectType;
         this.attackable = attackable;
         this.active = active;
         this.effectNotActivated = effectNotActivated;
+        this.firstTimePlayed = firstTimePlayed;
         this.effectDetails = effectDetails;
     }
 
@@ -24,10 +28,11 @@ public class Card {
         this.banana = (int) cardDetails.get(0);
         this.damage = (int) cardDetails.get(1);
         this.health = (int) cardDetails.get(2);
-        this.attackable = (boolean) cardDetails.get(3);
-        this.active = (boolean) cardDetails.get(4);
-        this.effectNotActivated = (boolean)cardDetails.get(5);
-        this.effectDetails = (ArrayList<Object>) cardDetails.get(6);
+        this.effectType = (String)cardDetails.get(3);
+        this.attackable = (boolean) cardDetails.get(4);
+        this.active = (boolean) cardDetails.get(5);
+        this.effectNotActivated = (boolean)cardDetails.get(6);
+        this.effectDetails = (ArrayList<Object>) cardDetails.get(7);
     }
 
     public int getBanana() {
@@ -94,8 +99,24 @@ public class Card {
         this.effectNotActivated = effectNotActivated;
     }
 
+    public String getEffectType() {
+        return effectType;
+    }
+
+    public void setEffectType(String effectType) {
+        this.effectType = effectType;
+    }
+
+    public boolean isFirstTimePlayed() {
+        return firstTimePlayed;
+    }
+
+    public void setFirstTimePlayed(boolean firstTimePlayed) {
+        this.firstTimePlayed = firstTimePlayed;
+    }
+
     @Override
     public String toString() {
-        return String.format("Banana: %d, Damage: %d, Health: %d, Attackable: %b, Active: %b", banana, damage, health, attackable, active);
+        return String.format("Banana: %d, Damage: %d, Health: %d, Effect Type : %s, Attackable: %b, Active: %b", banana, damage, health, effectType, attackable, active);
     }
 }

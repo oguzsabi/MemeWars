@@ -10,13 +10,13 @@ public class Event {
     private boolean effectActivated = true;
     private User user;
     SecureRandom random;
-
+    ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
     public Event(User user) {
         this.user = user;
     }
 
     public void damageEveryone(int damageAmount) {
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         for (ArrayList player: twoDimensional) {
             for (int i = 0; i < player.size(); i++) {
                 Card card = (Card) player.get(i);
@@ -34,7 +34,7 @@ public class Event {
     }
 
     public void damageRandomTargets(int numberOfTargets, int damageAmount, boolean onlyOpponent) {
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
 
         for (int i = 0; i < numberOfTargets; i++) {
             if (!onlyOpponent) {
@@ -60,7 +60,7 @@ public class Event {
     }
 
     public void healEveryone(int healAmount) {
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         for (ArrayList player: twoDimensional) {
             for (int i = 0; i < player.size(); i++) {
                 Card card = (Card) player.get(i);
@@ -74,7 +74,7 @@ public class Event {
     }
 
     public void healRandomTargets(int numberOfTargets, int healAmount, boolean onlySelf) {
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
 
         for (int i = 0; i < numberOfTargets; i++) {
             if (!onlySelf) {
@@ -93,7 +93,7 @@ public class Event {
         }
     }
     public void mindControlRandom(){
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         int enemyCardnumber = twoDimensional.get(1).size();
         int randomEnemyCard = random.nextInt(enemyCardnumber);
         if(twoDimensional.get(0).size()==6){
@@ -114,13 +114,7 @@ public class Event {
     }
 
     public void decreaseDamageOfEveryone(int decreaseAmount) {
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
-        for(int i=0;i<twoDimensional.size();i++){
-           for(int j=0;j<twoDimensional.get(i).size();j++){
-               twoDimensional.get(i).get(j).setDamage(twoDimensional.get(i).get(j).getDamage()-decreaseAmount);
-           }
-        }
-
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         for(ArrayList<Card> user: twoDimensional){
             for(Card card: user){
                 card.setDamage(card.getDamage()-decreaseAmount);
@@ -129,7 +123,7 @@ public class Event {
     }
 
     public void decreaseDamageOfEnemy(int damageAmount){
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         for(int i=0;i<twoDimensional.get(1).size();i++){
             twoDimensional.get(1).get(i).setDamage(twoDimensional.get(1).get(i).getDamage()- damageAmount);
         }
@@ -137,18 +131,23 @@ public class Event {
     }
 
     public void decreaseDamageOfTarget(Card targetCard, int damageAmount){
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         targetCard.setDamage(targetCard.getDamage() - damageAmount);
     }
 
     public void decreaseDamageOfEnemyRandom(int damageAmount){
-        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         int randomEnemyCard = random.nextInt(twoDimensional.get(1).size());
         for(int i=0;i<twoDimensional.get(1).size();i++){
             twoDimensional.get(1).get(randomEnemyCard).setDamage(twoDimensional.get(1).get(randomEnemyCard).getDamage() - damageAmount);
         }
     }
-
+    public void play(Card played, Card target){
+//        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
+        //twoDimensional.get(1).add(played);
+        played.setTarget(target);
+        System.out.println("Card : " +  played + " is played and target of the card is  " + played.getTarget());
+        activateCardEffect(played);
+    }
     public void battle(Card attacker, Card defender) {
         System.out.println("in battle");
         attacker.setTarget(defender);
@@ -175,7 +174,7 @@ public class Event {
 //                Object[] event = {"DamageTarget", 1};
 //                Object[] event = {"DamageRandomTargets", 2, 1, false};
 
-        if (effectDetails != null && card.isEffectNotActivated()) {
+        if (effectDetails != null && card.isEffectNotActivated() && card.getEffectType().equals("DR")) {
             System.out.println("Card effect of " + card + " is activated.");
             switch ((String)effectDetails.get(0)) {
                 case "DamageEveryone":
@@ -223,6 +222,79 @@ public class Event {
                     break;
                 case "MindControlRandom":
                     card.setEffectNotActivated(false);
+                    mindControlRandom();
+                    break;
+
+            }
+        }
+        else if(effectDetails != null && card.isEffectNotActivated() && card.isFirstTimePlayed() && card.getEffectType().equals("BC")){
+            switch ((String)effectDetails.get(0)) {
+                case "DamageEveryone":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+                    damageEveryone((int)effectDetails.get(1));
+                    break;
+                case "DamageTarget":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
+                    damageTarget(card.getTarget(), (int)effectDetails.get(1));
+                    break;
+                case "DamageRandomTargets":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+                    damageRandomTargets((int)effectDetails.get(1), (int)effectDetails.get(2), (boolean)effectDetails.get(3));
+                    break;
+                case "HealEveryone":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+                    healEveryone((int)(effectDetails.get(1)));
+                    break;
+                case "HealTarget":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
+                    healTarget(card.getTarget(), (int)effectDetails.get(1));
+                    break;
+                case "HealRandomTargets":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
+                    healRandomTargets((int)effectDetails.get(1), (int)effectDetails.get(2), (boolean)effectDetails.get(3));
+                    break;
+                case "DecreaseDamageOfTarget":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
+                    decreaseDamageOfTarget(card.getTarget(), (int)effectDetails.get(1));
+                    break;
+                case "DecreaseDamageEveryone":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
+                    decreaseDamageOfEveryone((int)effectDetails.get(1));
+                    break;
+                case "DecreaseDamageEnemy":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
+                    decreaseDamageOfEnemy((int)effectDetails.get(1));
+                    break;
+                case "DecreaseDamageEnemyRandom":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
+                    decreaseDamageOfEnemyRandom((int)effectDetails.get(1));
+                case "SpawnMinion":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
+                    spawnMinion((int)effectDetails.get(1), (int)effectDetails.get(2), (int)effectDetails.get(3));
+                    break;
+                case "MindControlRandom":
+                    card.setEffectNotActivated(false);
+                    card.setFirstTimePlayed(false);
+
                     mindControlRandom();
                     break;
 
