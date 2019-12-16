@@ -253,7 +253,6 @@ public class Event {
                 case "HealTarget":
                     card.setEffectNotActivated(false);
                     card.setFirstTimePlayed(false);
-
                     healTarget(card.getTarget(), (int)effectDetails.get(1));
                     break;
                 case "HealRandomTargets":
