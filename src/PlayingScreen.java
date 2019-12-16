@@ -17,21 +17,33 @@ import java.util.ResourceBundle;
 
 public class PlayingScreen implements Initializable {
     @FXML private Button endTurnButton;
-    @FXML private ImageView upperCardBack;
-    @FXML private ImageView lowerCardBack;
     @FXML private Pane firstPane;
     @FXML private Pane otherPane;
+    @FXML private Pane lastPane;
+    @FXML private Pane otherLastPane;
+    @FXML private Pane firstHandCard;
+    @FXML private Pane secondHandCard;
+
     public void loadFxml (ActionEvent event) {
         try {
             if (firstPane.getChildren().isEmpty()) {
                 Pane soAnyWay =  FXMLLoader.load(getClass().getResource("CardLayout.fxml"));
                 Pane itsRaw =  FXMLLoader.load(getClass().getResource("CardLayout.fxml"));
+                Pane itsRaw2 =  FXMLLoader.load(getClass().getResource("CardLayout.fxml"));
+                Pane itsRaw3 =  FXMLLoader.load(getClass().getResource("CardLayout.fxml"));
+                Pane itsRaw4 =  FXMLLoader.load(getClass().getResource("CardLayout.fxml"));
+                Pane itsRaw5 =  FXMLLoader.load(getClass().getResource("CardLayout.fxml"));
+                System.out.println(soAnyWay.getBoundsInLocal());
                 firstPane.getChildren().add(soAnyWay);
                 getCardNameLabel().setText("This is another way.");
                 getCardImage().setImage(urlToImage("Images/soAnyWay.png"));
                 getCardAttack().setText("4");
                 getCardHealth().setText("1");
                 otherPane.getChildren().add(itsRaw);
+                firstHandCard.getChildren().add(itsRaw2);
+                secondHandCard.getChildren().add(itsRaw3);
+                lastPane.getChildren().add(itsRaw4);
+                otherLastPane.getChildren().add(itsRaw5);
             } else {
                 firstPane.getChildren().remove(0);
             }
@@ -70,7 +82,6 @@ public class PlayingScreen implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        upperCardBack.setImage(urlToImage("Images/cardBack.png"));
-//        lowerCardBack.setImage(urlToImage("Images/cardBack.png"));
+
     }
 }
