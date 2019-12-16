@@ -1,6 +1,12 @@
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
-public class Main {
+public class Main extends Application {
     public static void main(String[] args) {
         Event event = new Event(new User());
         DefaultCards defaultCards = new DefaultCards();
@@ -16,5 +22,17 @@ public class Main {
         //System.out.println("Card: 0 " + defaultCards.cards.get(0));
         System.out.println("Card: 1 " + defaultCards.cards.get(1));
         System.out.println("Card: 2 " + defaultCards.cards.get(2));
+
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("PlayingScreen.fxml"));
+
+        Scene s = new Scene(root);
+        primaryStage.setScene(s);
+        primaryStage.setTitle("BibTex Manager");
+        primaryStage.show();
     }
 }
