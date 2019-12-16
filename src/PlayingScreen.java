@@ -1,6 +1,7 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,9 +12,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class PlayingScreen {
+public class PlayingScreen implements Initializable {
     @FXML private Button endTurnButton;
+    @FXML private ImageView upperCardBack;
+    @FXML private ImageView lowerCardBack;
     @FXML private Pane firstPane;
     @FXML private Pane otherPane;
     public void loadFxml (ActionEvent event) {
@@ -23,7 +28,7 @@ public class PlayingScreen {
                 Pane itsRaw =  FXMLLoader.load(getClass().getResource("CardLayout.fxml"));
                 firstPane.getChildren().add(soAnyWay);
                 getCardNameLabel().setText("This is another way.");
-                getCardImage().setImage(urlToImage("./Images/soAnyWay.png"));
+                getCardImage().setImage(urlToImage("Images/soAnyWay.png"));
                 getCardAttack().setText("4");
                 getCardHealth().setText("1");
                 otherPane.getChildren().add(itsRaw);
@@ -61,5 +66,11 @@ public class PlayingScreen {
     private Label getCardHealth() {
         VBox myVbox = (VBox) firstPane.getChildren().get(0);
         return ((Label) ((FlowPane) ((GridPane) myVbox.getChildren().get(2)).getChildren().get(1)).getChildren().get(0));
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+//        upperCardBack.setImage(urlToImage("Images/cardBack.png"));
+//        lowerCardBack.setImage(urlToImage("Images/cardBack.png"));
     }
 }

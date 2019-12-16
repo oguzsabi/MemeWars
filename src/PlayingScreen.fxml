@@ -289,7 +289,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="150.0" fitWidth="104.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                        <ImageView fx:id="lowerCardBack" fitHeight="150.0" fitWidth="104.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
@@ -297,7 +297,7 @@
                               <Image url="@Images/cardBack.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="104.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <ImageView fx:id="upperCardBack" fitHeight="150.0" fitWidth="104.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <image>
                               <Image url="@Images/cardBack.png" />
                            </image>
