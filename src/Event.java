@@ -300,28 +300,4 @@ public class Event {
             }
         }
     }
-
-//    public void activateBattleCry(Card card) {
-//        ArrayList<Object> eventDetails = card.getEventDetails();
-//        switch ((String)eventDetails.get(0)) {
-//            case "DamageEveryone":
-//                damageEveryone((int)eventDetails.get(1));
-//                break;
-//            case "DamageTarget":
-//                damageTarget(new Card(), (int)eventDetails.get(1));
-//                break;
-//            case "DamageRandomTargets":
-//                damageRandomTargets((int)eventDetails.get(1), (int)eventDetails.get(2), (boolean)eventDetails.get(3));
-//                break;
-//            case "HealEveryone":
-//                healEveryone((int)(eventDetails.get(1)));
-//                break;
-//            case "HealTarget":
-//                healTarget(new Card(), (int)eventDetails.get(1));
-//                break;
-//            case "HealRandomTargets":
-//                healRandomTargets((int)eventDetails.get(1), (int)eventDetails.get(2), (boolean)eventDetails.get(3));
-//                break;
-//        }
-//    }
 }
