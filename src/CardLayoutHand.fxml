@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" style="-fx-border-color: #000; -fx-border-width: 2; -fx-background-color: #A6A6A6;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="119.0" prefWidth="123.0" style="-fx-border-color: #000; -fx-border-width: 2; -fx-background-color: #A6A6A6;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane>
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
          <children>
             <Label alignment="CENTER" text="It's Raw" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
@@ -30,39 +23,36 @@
                </GridPane.margin>
             </Label>
          </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
       </GridPane>
-      <ImageView cache="true" cacheHint="SCALE" fitHeight="148.0" fitWidth="198.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
-         <VBox.margin>
-            <Insets bottom="8.0" left="1.0" right="1.0" top="8.0" />
-         </VBox.margin>
+      <ImageView cache="true" cacheHint="SCALE" fitHeight="66.0" fitWidth="84.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
          <image>
             <Image url="@Images/itsRaw.jpg" />
          </image>
          <viewport>
             <Rectangle2D />
-         </viewport></ImageView>
+         </viewport>
+         <VBox.margin>
+            <Insets bottom="8.0" left="1.0" right="1.0" top="8.0" />
+         </VBox.margin>
+      </ImageView>
       <GridPane alignment="CENTER">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
          <children>
             <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <children>
-                  <Label text="Attack: ">
+                  <Label contentDisplay="BOTTOM" text="Attack: ">
                      <padding>
                         <Insets left="3.0" />
                      </padding>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
                   </Label>
                   <Label text="5">
                      <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
                </children>
@@ -74,23 +64,27 @@
                <children>
                   <Label text="5">
                      <font>
-                        <Font name="System Bold" size="17.0" />
+                        <Font name="System Bold" size="13.0" />
                      </font>
                      <FlowPane.margin>
                         <Insets left="3.0" />
                      </FlowPane.margin>
                   </Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Health: ">
+                  <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" text="Health: " textAlignment="CENTER">
                      <padding>
                         <Insets left="3.0" />
                      </padding>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
                   </Label>
                </children>
             </FlowPane>
          </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
       </GridPane>
    </children>
    <effect>
