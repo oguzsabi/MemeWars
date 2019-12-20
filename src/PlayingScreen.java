@@ -8,10 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +25,10 @@ public class PlayingScreen implements Initializable {
     @FXML private GridPane myself;
     @FXML private GridPane myHand;
     @FXML private GridPane myPlayedCards;
+    boolean aCardIsSelected = false;
+    Node selectedCard = null;
+    String selectedStyle = "-fx-border-color: #0066ff; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
+    String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
 
     public void loadFxml (ActionEvent event) {
         try {
@@ -71,9 +75,45 @@ public class PlayingScreen implements Initializable {
     public void endTurn(ActionEvent event) {
         loadFxml(event);
         for (Node node : myPlayedCards.getChildren()) {
-            node.setOnMouseClicked((MouseEvent t) -> {
-                System.out.println(getCardNameLabel(node).getText());
-                node.setOnMouseClicked(null);
+            node.setOnMouseClicked((MouseEvent e) -> {
+                if (e.getButton() == MouseButton.PRIMARY && node != null) {
+                    if (!aCardIsSelected) {
+                        selectedCard = node;
+                        aCardIsSelected = true;
+                        System.out.println(getCardNameLabel(node).getText());
+                        VBox vBox = (VBox) node;
+                        vBox.setStyle(selectedStyle);
+//                    vBox.setBorder(new Border(new BorderStroke(Color.BLUE,
+//                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+//                    node.setOnMouseClicked(null);
+                    } else {
+                        VBox vBox = (VBox) selectedCard;
+//                    vBox.setBorder(new Border(new BorderStroke(Color.BLACK,
+//                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.)));
+                        vBox.setStyle(notSelectedStyle);
+                        selectedCard = null;
+                        aCardIsSelected = false;
+                    }
+                }
+            });
+        }
+
+        for (Node node : myHand.getChildren()) {
+            node.setOnMouseClicked((MouseEvent e) -> {
+                if (e.getButton() == MouseButton.PRIMARY && node != null) {
+                    if (!aCardIsSelected) {
+                        selectedCard = node;
+                        aCardIsSelected = true;
+                        System.out.println(getCardNameLabel(node).getText());
+                        VBox vBox = (VBox) node;
+                        vBox.setStyle(selectedStyle);
+                    } else {
+                        VBox vBox = (VBox) selectedCard;
+                        vBox.setStyle(notSelectedStyle);
+                        selectedCard = null;
+                        aCardIsSelected = false;
+                    }
+                }
             });
         }
     }
