@@ -182,7 +182,9 @@ public class Event {
     public void hitEnemyHero(Card attacker, User defender) {
 
     }
+    public void hitAllHero(){
 
+    }
     public void activateCardEffect(Card card) {
 
         ArrayList<Object> effectDetails = card.getEffectDetails();
