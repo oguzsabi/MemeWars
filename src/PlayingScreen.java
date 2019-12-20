@@ -2,7 +2,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,7 +28,7 @@ public class PlayingScreen implements Initializable {
     String selectedStyle = "-fx-border-color: #0066ff; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
     String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
 
-    public void loadFxml (ActionEvent event) {
+    public void loadCard(ActionEvent event) {
         try {
             if (myPlayedCards.getChildren().isEmpty()) {
 //                Pane soAnyWay = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
@@ -73,7 +71,7 @@ public class PlayingScreen implements Initializable {
     }
 
     public void endTurn(ActionEvent event) {
-        loadFxml(event);
+        loadCard(event);
         for (Node node : myPlayedCards.getChildren()) {
             node.setOnMouseClicked((MouseEvent e) -> {
                 if (e.getButton() == MouseButton.PRIMARY && node != null) {
