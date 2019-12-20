@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Card {
+    private String cardName;
     private int banana;
     private int damage;
     private int health;
@@ -12,7 +13,8 @@ public class Card {
     private Card target;
     private ArrayList<Object> effectDetails;
 
-    public Card(int banana, int damage, int health, String effectType, boolean attackable, boolean active, boolean effectNotActivated,boolean firstTimePlayed, ArrayList<Object> effectDetails) {
+    public Card(String cardName, int banana, int damage, int health, String effectType, boolean attackable, boolean active, boolean effectNotActivated, boolean firstTimePlayed, ArrayList<Object> effectDetails) {
+        this.cardName = cardName;
         this.banana = banana;
         this.damage = damage;
         this.health = health;
@@ -25,14 +27,15 @@ public class Card {
     }
 
     public Card(ArrayList<Object> cardDetails) {
-        this.banana = (int) cardDetails.get(0);
-        this.damage = (int) cardDetails.get(1);
-        this.health = (int) cardDetails.get(2);
-        this.effectType = (String)cardDetails.get(3);
-        this.attackable = (boolean) cardDetails.get(4);
-        this.active = (boolean) cardDetails.get(5);
-        this.effectNotActivated = (boolean)cardDetails.get(6);
-        this.effectDetails = (ArrayList<Object>) cardDetails.get(7);
+        this.cardName = (String) cardDetails.get(0);
+        this.banana = (int) cardDetails.get(1);
+        this.damage = (int) cardDetails.get(2);
+        this.health = (int) cardDetails.get(3);
+        this.effectType = (String)cardDetails.get(4);
+        this.attackable = (boolean) cardDetails.get(5);
+        this.active = (boolean) cardDetails.get(6);
+        this.effectNotActivated = (boolean)cardDetails.get(7);
+        this.effectDetails = (ArrayList<Object>) cardDetails.get(8);
     }
 
     public int getBanana() {

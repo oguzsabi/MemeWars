@@ -138,7 +138,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
-                        <GridPane fx:id="myPlayedCards" alignment="CENTER" gridLinesVisible="true" onMouseClicked="#cardSelectedFromTable" prefHeight="245.0" prefWidth="1102.0" style="-fx-background-color: #3C2A18;">
+                        <GridPane fx:id="myPlayedCards" alignment="CENTER" gridLinesVisible="true" prefHeight="245.0" prefWidth="1102.0" style="-fx-background-color: #3C2A18;">
                            <columnConstraints>
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

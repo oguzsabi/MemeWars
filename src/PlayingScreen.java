@@ -30,44 +30,46 @@ public class PlayingScreen implements Initializable {
 
     public void loadCard(ActionEvent event) {
         try {
-            if (myPlayedCards.getChildren().isEmpty()) {
 //                Pane soAnyWay = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
 //                Pane itsRaw = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
-                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
-                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
-                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
-                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
-                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);
+            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
+            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
+            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
+            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
+            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);
 //                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
-                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
-                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
-                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
-                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
-                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
-                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 5, 0);
-                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 6, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 5, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 6, 0);
 //                ((VBox) otherPane.getChildren().get(0)).fillWidthProperty().bind(otherPane.getWidth());
-                System.out.println(getCardHealth(myPlayedCards.getChildren().get(0)).getText());
-                System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(3)).getText());
-            } else {
-                myPlayedCards.getChildren().remove(0);
-            }
+//                System.out.println(getCardHealth(myPlayedCards.getChildren().get(0)).getText());
+//                System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(3)).getText());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @FXML
-    private void cardSelectedFromTable(MouseEvent e) {
-//        System.out.println(e.getTarget());
-//        System.out.println(e.getEventType());
+//    @FXML
+//    private void cardSelectedFromTable(MouseEvent e) {
+////        System.out.println(e.getTarget());
+////        System.out.println(e.getEventType());
+//
+//        Node source = (Node) e.getSource();
+////        System.out.println(source);
+//        Integer colIndex = GridPane.getColumnIndex(source);
+//        Integer rowIndex = GridPane.getRowIndex(source);
+////        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex, rowIndex);
+////        System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(colIndex)));
+//    }
 
-        Node source = (Node) e.getSource();
-//        System.out.println(source);
-        Integer colIndex = GridPane.getColumnIndex(source);
-        Integer rowIndex = GridPane.getRowIndex(source);
-//        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex, rowIndex);
-//        System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(colIndex)));
+    public void putCardFromHandToTable() {
+
     }
 
     public void endTurn(ActionEvent event) {

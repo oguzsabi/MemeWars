@@ -122,23 +122,23 @@ public class Event {
         }
     }
 
-    public void decreaseDamageOfEnemy(int damageAmount){
+    public void decreaseDamageOfEnemy(int decreaseAmount){
 //        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         for(int i=0;i<twoDimensional.get(1).size();i++){
-            twoDimensional.get(1).get(i).setDamage(twoDimensional.get(1).get(i).getDamage()- damageAmount);
+            twoDimensional.get(1).get(i).setDamage(twoDimensional.get(1).get(i).getDamage() - decreaseAmount);
         }
 
     }
 
-    public void decreaseDamageOfTarget(Card targetCard, int damageAmount){
-        targetCard.setDamage(targetCard.getDamage() - damageAmount);
+    public void decreaseDamageOfTarget(Card targetCard, int decreaseAmount){
+        targetCard.setDamage(targetCard.getDamage() - decreaseAmount);
     }
 
-    public void decreaseDamageOfEnemyRandom(int damageAmount){
+    public void decreaseDamageOfEnemyRandom(int decreaseAmount){
 //        ArrayList<ArrayList<Card>> twoDimensional = Table.cards;
         int randomEnemyCard = random.nextInt(twoDimensional.get(1).size());
         for(int i=0;i<twoDimensional.get(1).size();i++){
-            twoDimensional.get(1).get(randomEnemyCard).setDamage(twoDimensional.get(1).get(randomEnemyCard).getDamage() - damageAmount);
+            twoDimensional.get(1).get(randomEnemyCard).setDamage(twoDimensional.get(1).get(randomEnemyCard).getDamage() - decreaseAmount);
         }
     }
 
@@ -177,6 +177,10 @@ public class Event {
 
         if (defender.getHealth() <= 0) // DR
             activateCardEffect(defender);
+    }
+
+    public void hitEnemyHero(Card attacker, User defender) {
+
     }
 
     public void activateCardEffect(Card card) {
