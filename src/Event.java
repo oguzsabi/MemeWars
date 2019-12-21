@@ -179,11 +179,15 @@ public class Event {
             activateCardEffect(defender);
     }
 
-    public void hitEnemyHero(Card attacker, User defender) {
-
+    public void battleWithHero(Card attacker, User defender){
+        hitEnemyHero(attacker, defender);
     }
-    public void hitAllHero(){
 
+    public void hitEnemyHero(Card attacker, User defender) {
+        defender.setHealth(defender.getHealth() - attacker.getDamage());
+    }
+    public void hitAllHero(int damageAmount){
+        user.setHealth(user.getHealth() - damageAmount);
     }
     public void activateCardEffect(Card card) {
 
