@@ -33,8 +33,13 @@ public class PlayingScreen implements Initializable {
 //                Pane soAnyWay = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
 //                Pane itsRaw = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
-            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+            getCardImage(myPlayedCards.getChildren().get(1)).setImage(urlToImage("Images/Kobe.png"));
+//            getCardAttack(myPlayedCards.getChildren().get(1)).setText();
+            getCardHealth(myPlayedCards.getChildren().get(1));
+            getCardNameLabel(myPlayedCards.getChildren().get(1));
+            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
+//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);

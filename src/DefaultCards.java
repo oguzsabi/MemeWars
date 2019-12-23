@@ -7,48 +7,48 @@ public class DefaultCards {
     public DefaultCards() {
         cards = new ArrayList<>();
 
-        cards.add(youHaveNoPowerHere);
-        cards.add(whyUNoAttack);
-        cards.add(heNeedSomeMilk);
-        cards.add(soAnyWay);
-        cards.add(kobe);
-        cards.add(civilWar);
-        cards.add(djKhaled);
-        cards.add(billCosby);
-        cards.add(badLuck);
-        cards.add(itsRaw);
-        cards.add(slapsRoof);
-        cards.add(confusedGandalf);
-        cards.add(screamingPatrick);
-        cards.add(chuckles);
-        cards.add(oprah);
-        cards.add(fuckMeRight);
-        cards.add(sike);
-        cards.add(thirdworld);
-        cards.add(trollFace);
-        cards.add(lambSauce);
-        cards.add(frodo);
-        cards.add(snape);
-        cards.add(howAboutNo);
-        cards.add(imgonnaFind);
-        cards.add(absolute);
-        cards.add(FBI);
-        cards.add(arabicSquad);
-        cards.add(ohBoy);
-        cards.add(flexTape);
-        cards.add(aight);
-        cards.add(doge);
-        cards.add(cat);
-        cards.add(tooDamn);
-        cards.add(hereIs);
-        cards.add(gollum);
-        cards.add(obiWann);
-        cards.add(bender);
-        cards.add(boromir);
-        cards.add(minions);
-        cards.add(chuckNorris);
-        cards.add(ipulled);
-        cards.add(isYouDead);
+        cards.add(youHaveNoPowerHere); // 0
+        cards.add(whyUNoAttack); // 1
+        cards.add(heNeedSomeMilk); // 2
+        cards.add(soAnyWay); // 3
+        cards.add(kobe); // 4
+        cards.add(civilWar); // 5
+        cards.add(djKhaled); // 6
+        cards.add(billCosby); // 7
+        cards.add(badLuck); // 8
+        cards.add(itsRaw); // 9
+        cards.add(slapsRoof); // 10
+        cards.add(confusedGandalf); // 11
+        cards.add(screamingPatrick); // 12
+        cards.add(chuckles); // 13
+        cards.add(oprah); // 14
+        cards.add(fuckMeRight); // 15
+        cards.add(sike); // 16
+        cards.add(thirdworld); // 17
+        cards.add(trollFace); // 18
+        cards.add(lambSauce); // 19
+        cards.add(frodo); // 20
+        cards.add(snape); // 21
+        cards.add(howAboutNo); // 22
+        cards.add(imgonnaFind); // 23
+        cards.add(absolute); // 24
+        cards.add(FBI); // 25
+        cards.add(arabicSquad); // 26
+        cards.add(ohBoy); // 27
+        cards.add(flexTape); // 28
+        cards.add(aight); // 29
+        cards.add(doge); // 30
+        cards.add(cat); // 31
+        cards.add(tooDamn); // 32
+        cards.add(hereIs); // 33
+        cards.add(gollum); // 34
+        cards.add(obiWann); // 35
+        cards.add(bender); // 36
+        cards.add(boromir); // 37
+        cards.add(minions); // 38
+        cards.add(chuckNorris); // 39
+        cards.add(ipulled); // 40
+        cards.add(isYouDead); // 41
 
 
     }
