@@ -59,7 +59,7 @@ public class DefaultCards {
 
     public static Card defaultMinion = new Card("Minion", 1, 1, 1,"", true, false,true,true, null);
 
-    private Card youHaveNoPowerHere = new Card("You Have No Power Here",8, 4, 4,"BC", true, false, true, true, new ArrayList<>(Arrays.asList("DecreaseDamageEveryone", 1)));
+    private Card youHaveNoPowerHere = new Card("You Have No Power Here",6, 4, 4,"BC", true, false, true, true, new ArrayList<>(Arrays.asList("DecreaseDamageEveryone", 1)));
     private Card whyUNoAttack = new Card("Why U No Attack",3, 2, 3,"BC", true, true,true,true, new ArrayList<>(Arrays.asList("DamageTarget", 1)));
     private Card heNeedSomeMilk = new Card("He Need Some Milk", 3,4,3,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("HealTarget",1)));
     private Card soAnyWay = new Card("So Anyway", 3,3,2,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DamageRandomTargets",3,1)));
