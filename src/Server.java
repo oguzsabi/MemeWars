@@ -24,6 +24,7 @@ public class Server extends Application {
 
     public static void main(String[] args) {
         try {
+            PlayingScreen.isServer = true;
             server = new ServerSocket(6789, 100);
             while (true) {
                 try {
@@ -71,14 +72,16 @@ public class Server extends Application {
 
         Scene s = new Scene(root);
         primaryStage.setScene(s);
-        primaryStage.setTitle("Meme Wars");
+        primaryStage.setTitle("Server");
         primaryStage.show();
     }
 
     @Override
     public void stop() {
         try {
+            closeConnection();
             server.close();
+            System.exit(0);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -11,6 +11,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -116,8 +117,10 @@ public class PlayingScreen implements Initializable {
         try {
             if (isServer) {
                 Server.output.writeObject("remove_card");
+                Server.output.flush();
             } else {
                 Client.output.writeObject("remove_card");
+                Client.output.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -144,8 +147,13 @@ public class PlayingScreen implements Initializable {
                         System.out.println(getCardNameLabel(node).getText());
 
                         try {
-                            Server.output.writeObject("end turn pressed");
-                            Server.output.flush();
+                            if (isServer) {
+                                Server.output.writeObject("end turn pressed");
+                                Server.output.flush();
+                            } else {
+                                Client.output.writeObject("end turn pressed");
+                                Client.output.flush();
+                            }
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -296,6 +304,24 @@ public class PlayingScreen implements Initializable {
         return ((Label) ((FlowPane) ((GridPane) vBox.getChildren().get(2)).getChildren().get(1)).getChildren().get(0));
     }
 
+    private void listenToOtherPlayer() {
+        System.out.println("in runnable run");
+        if (isServer) {
+            try {
+                final String message = (String) Server.input.readObject();
+                if (message.equals("remove_card")) {
+                    myPlayedCards.getChildren().remove(1);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         opponentHand.setDisable(true);
@@ -310,5 +336,7 @@ public class PlayingScreen implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        listenToOtherPlayer();
     }
 }

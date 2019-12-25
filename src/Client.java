@@ -117,7 +117,7 @@ public class Client extends Application {
 
         Scene s = new Scene(root);
         primaryStage.setScene(s);
-        primaryStage.setTitle("Meme Wars");
+        primaryStage.setTitle("Client");
         primaryStage.show();
     }
 
