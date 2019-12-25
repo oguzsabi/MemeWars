@@ -1,4 +1,5 @@
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -6,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -327,16 +329,57 @@ public class PlayingScreen implements Initializable {
 //                }
 //            }
 //        });
-        Runnable listener = new Runnable() {
+
+//        new Thread(new Runnable() {
+//            @Override public void run() {
+//                while (true) {
+//                    Platform.runLater(new Runnable() {
+//                        @Override public void run() {
+//                            System.out.println("in run");
+//                        }
+//                    });
+//                }
+//            }
+//        }).start();
+//        Runnable listener = new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println("in runnable run");
+//                while (true) {
+//                    if (isServer) {
+//                        try {
+//                            final String message = (String) Server.input.readObject();
+//                            if (message.equals("remove_card")) {
+//                                myPlayedCards.getChildren().remove(1);
+////                                System.out.println(Thread.getAllStackTraces());
+//                            }
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        } catch (ClassNotFoundException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//
+//                    }
+//                }
+//            }
+//        };
+//
+//        Thread serverThread = new Thread(listener);
+//        serverThread.start();
+
+        Task task = new Task<Void>() {
             @Override
-            public void run() {
-                System.out.println("in runnable run");
+            public Void call() {
+//                System.out.println("in task");
                 while (true) {
                     if (isServer) {
                         try {
                             final String message = (String) Server.input.readObject();
+                            System.out.println(message);
                             if (message.equals("remove_card")) {
-                                myPlayedCards.getChildren().remove(1);
+                                System.out.println("in remove_card");
+                                myPlayedCards.getChildren().removeAll();
 //                                System.out.println(Thread.getAllStackTraces());
                             }
                         } catch (IOException e) {
@@ -351,8 +394,7 @@ public class PlayingScreen implements Initializable {
             }
         };
 
-        Thread serverThread = new Thread(listener);
-        serverThread.start();
+        new Thread(task).start();
     }
 
     @Override
