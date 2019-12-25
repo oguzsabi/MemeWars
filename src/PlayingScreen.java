@@ -27,6 +27,8 @@ public class PlayingScreen implements Initializable {
     boolean selectedFromHand = false;
     boolean selectedFromTable = false;
     boolean selectedFromOpponent = false;
+    boolean[] emptyIndexOnTable = {true, true, true, true, true, true};
+    boolean[] emptyIndexOnHand = {false, false, false, false, false, true, true, true, true, true};
     Node selectedCard = null;
     String selectedStyle = "-fx-border-color: #0066ff; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
     String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
@@ -35,18 +37,13 @@ public class PlayingScreen implements Initializable {
         try {
 //                Pane soAnyWay = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
 //                Pane itsRaw = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
-            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 0, 0);
-            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 1, 0);
-            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 2, 0);
-            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 3, 0);
-            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 4, 0);
 
-            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
-            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
-            getCardImage(myPlayedCards.getChildren().get(1)).setImage(urlToImage("Images/Kobe.png"));
+//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
+//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+//            getCardImage(myPlayedCards.getChildren().get(1)).setImage(urlToImage("Images/Kobe.png"));
 //            getCardAttack(myPlayedCards.getChildren().get(1)).setText();
-            getCardHealth(myPlayedCards.getChildren().get(1));
-            getCardNameLabel(myPlayedCards.getChildren().get(1));
+//            getCardHealth(myPlayedCards.getChildren().get(1));
+//            getCardNameLabel(myPlayedCards.getChildren().get(1));
 
 
             opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
@@ -54,11 +51,13 @@ public class PlayingScreen implements Initializable {
             opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
             opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
             getCardNameLabel(opponentPlayedCards.getChildren().get(1)).setText("I wanna die");
+            getCardAttack(opponentPlayedCards.getChildren().get(1)).setText("3");
 //            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
-
-            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
-            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
-            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);
+//
+//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
+//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
+//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);
+//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
 //                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
 
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
@@ -66,6 +65,10 @@ public class PlayingScreen implements Initializable {
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
+//            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 5, 0);
+//            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 6, 0);
+//            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 7, 0);
+//            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 8, 0);
 //                ((VBox) otherPane.getChildren().get(0)).fillWidthProperty().bind(otherPane.getWidth());
 //                System.out.println(getCardHealth(myPlayedCards.getChildren().get(0)).getText());
 //                System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(3)).getText());
@@ -75,21 +78,34 @@ public class PlayingScreen implements Initializable {
         }
     }
 
-//    @FXML
-//    private void cardSelectedFromTable(MouseEvent e) {
-////        System.out.println(e.getTarget());
-////        System.out.println(e.getEventType());
-//
-//        Node source = (Node) e.getSource();
-////        System.out.println(source);
-//        Integer colIndex = GridPane.getColumnIndex(source);
-//        Integer rowIndex = GridPane.getRowIndex(source);
-////        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex, rowIndex);
-////        System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(colIndex)));
-//    }
-
     public void putCardFromHandToTable() {
+        boolean emptySpaceExists = false;
 
+        for (boolean empty: emptyIndexOnTable) {
+            if (empty) {
+                emptySpaceExists = true;
+                break;
+            }
+        }
+
+        if (emptySpaceExists) {
+            if (selectedFromHand) {
+                myHand.getChildren().remove(selectedCard);
+                for (int emptyIndex = 0; emptyIndex < emptyIndexOnTable.length; emptyIndex++) {
+                    if (emptyIndexOnTable[emptyIndex]) {
+                        selectedCard.setStyle(notSelectedStyle);
+                        myPlayedCards.add(selectedCard, emptyIndex, 0);
+                        emptyIndexOnTable[emptyIndex] = false;
+                        break;
+                    }
+                }
+
+//                selectedCard = null;
+                aCardIsSelected = false;
+                selectedFromHand = false;
+                setMyPlayedCardsListener();
+            }
+        }
     }
 
     public void endTurn(ActionEvent event) {
@@ -143,6 +159,10 @@ public class PlayingScreen implements Initializable {
 
                         VBox vBox = (VBox) node;
                         vBox.setStyle(selectedStyle);
+
+                        putCardFromHandToTable();
+
+
                     } else {
                         VBox vBox = (VBox) selectedCard;
                         vBox.setStyle(notSelectedStyle);
@@ -174,8 +194,10 @@ public class PlayingScreen implements Initializable {
                             selectedFromOpponent = false;
                         }
 
-                        if (Integer.parseInt(getCardHealth(node).getText()) <= 0) {
+                        if (Integer.parseInt(getCardHealth(selectedCard).getText()) <= 0) {
+                            emptyIndexOnTable[myPlayedCards.getChildren().indexOf(selectedCard) - 1] = true;
                             myPlayedCards.getChildren().remove(selectedCard);
+                            myHand.setDisable(false);
                             aCardIsSelected = false;
                         }
                     }
@@ -225,5 +247,15 @@ public class PlayingScreen implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         opponentHand.setDisable(true);
         opponentPlayedCards.setDisable(true);
+
+        try {
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 0, 0);
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 1, 0);
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 2, 0);
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 3, 0);
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 4, 0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
