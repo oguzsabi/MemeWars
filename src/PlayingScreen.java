@@ -378,8 +378,8 @@ public class PlayingScreen implements Initializable {
                             final String message = (String) Server.input.readObject();
                             System.out.println(message);
                             if (message.equals("remove_card")) {
-                                System.out.println("in remove_card");
-                                myPlayedCards.getChildren().removeAll();
+                                updateUIElements();
+//                                myPlayedCards.getChildren().removeAll();
 //                                System.out.println(Thread.getAllStackTraces());
                             }
                         } catch (IOException e) {
@@ -395,6 +395,17 @@ public class PlayingScreen implements Initializable {
         };
 
         new Thread(task).start();
+    }
+
+    private void updateUIElements() {
+        System.out.println("in update ui elements");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("in runnable run");
+                System.out.println(myPlayedCards.getChildren().remove(1));
+            }
+        });
     }
 
     @Override
