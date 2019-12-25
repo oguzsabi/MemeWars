@@ -24,6 +24,9 @@ public class PlayingScreen implements Initializable {
     @FXML private GridPane myHand;
     @FXML private GridPane myPlayedCards;
     boolean aCardIsSelected = false;
+    boolean selectedFromHand = false;
+    boolean selectedFromTable = false;
+    boolean selectedFromOpponent = false;
     Node selectedCard = null;
     String selectedStyle = "-fx-border-color: #0066ff; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
     String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
@@ -32,25 +35,37 @@ public class PlayingScreen implements Initializable {
         try {
 //                Pane soAnyWay = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
 //                Pane itsRaw = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 0, 0);
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 1, 0);
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 2, 0);
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 3, 0);
+            opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 4, 0);
+
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
             getCardImage(myPlayedCards.getChildren().get(1)).setImage(urlToImage("Images/Kobe.png"));
 //            getCardAttack(myPlayedCards.getChildren().get(1)).setText();
             getCardHealth(myPlayedCards.getChildren().get(1));
             getCardNameLabel(myPlayedCards.getChildren().get(1));
+
+
             opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
+            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
+            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
+            getCardNameLabel(opponentPlayedCards.getChildren().get(1)).setText("I wanna die");
 //            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
             myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);
 //                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
+
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
             myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 5, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 6, 0);
 //                ((VBox) otherPane.getChildren().get(0)).fillWidthProperty().bind(otherPane.getWidth());
 //                System.out.println(getCardHealth(myPlayedCards.getChildren().get(0)).getText());
 //                System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(3)).getText());
@@ -79,47 +94,106 @@ public class PlayingScreen implements Initializable {
 
     public void endTurn(ActionEvent event) {
         loadCard(event);
+        setMyPlayedCardsListener();
+        setMyHandListener();
+    }
+
+    private void setMyPlayedCardsListener() {
         for (Node node : myPlayedCards.getChildren()) {
             node.setOnMouseClicked((MouseEvent e) -> {
-                if (e.getButton() == MouseButton.PRIMARY && node != null) {
+                if (e.getButton() == MouseButton.PRIMARY) {
                     if (!aCardIsSelected) {
                         selectedCard = node;
+
+                        myHand.setDisable(true);
+                        opponentPlayedCards.setDisable(false);
+
                         aCardIsSelected = true;
+                        setOpponentPlayedCardsListener();
+                        selectedFromTable = true;
+
                         System.out.println(getCardNameLabel(node).getText());
                         VBox vBox = (VBox) node;
                         vBox.setStyle(selectedStyle);
-//                    vBox.setBorder(new Border(new BorderStroke(Color.BLUE,
-//                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-//                    node.setOnMouseClicked(null);
                     } else {
+                        opponentPlayedCards.setDisable(true);
+                        myHand.setDisable(false);
+
+                        disableOpponentPlayedCardListener();
                         VBox vBox = (VBox) selectedCard;
-//                    vBox.setBorder(new Border(new BorderStroke(Color.BLACK,
-//                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.)));
                         vBox.setStyle(notSelectedStyle);
                         selectedCard = null;
+                        selectedFromTable = false;
                         aCardIsSelected = false;
                     }
                 }
             });
         }
+    }
 
+    private void setMyHandListener() {
         for (Node node : myHand.getChildren()) {
             node.setOnMouseClicked((MouseEvent e) -> {
-                if (e.getButton() == MouseButton.PRIMARY && node != null) {
+                if (e.getButton() == MouseButton.PRIMARY) {
                     if (!aCardIsSelected) {
                         selectedCard = node;
                         aCardIsSelected = true;
-                        System.out.println(getCardNameLabel(node).getText());
+                        selectedFromHand = true;
+                        opponentPlayedCards.setDisable(true);
+
                         VBox vBox = (VBox) node;
                         vBox.setStyle(selectedStyle);
                     } else {
                         VBox vBox = (VBox) selectedCard;
                         vBox.setStyle(notSelectedStyle);
+                        opponentPlayedCards.setDisable(false);
+
+                        selectedFromOpponent = false;
                         selectedCard = null;
+                        selectedFromHand = false;
                         aCardIsSelected = false;
                     }
                 }
             });
+        }
+    }
+
+    private void setOpponentPlayedCardsListener() {
+        for (Node node : opponentPlayedCards.getChildren()) {
+            node.setOnMouseClicked((MouseEvent e) -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    if (selectedFromTable && !selectedFromOpponent) {
+                        VBox vBox = (VBox) node;
+                        vBox.setStyle(selectedStyle);
+                        selectedFromOpponent = true;
+
+                        getCardHealth(node).setText(String.valueOf(Integer.parseInt(getCardHealth(node).getText()) - Integer.parseInt(getCardAttack(selectedCard).getText())));
+                        getCardHealth(selectedCard).setText(String.valueOf(Integer.parseInt(getCardHealth(selectedCard).getText()) - Integer.parseInt(getCardAttack(node).getText())));
+                        if (Integer.parseInt(getCardHealth(node).getText()) <= 0) {
+                            opponentPlayedCards.getChildren().remove(node);
+                            selectedFromOpponent = false;
+                        }
+
+                        if (Integer.parseInt(getCardHealth(node).getText()) <= 0) {
+                            myPlayedCards.getChildren().remove(selectedCard);
+                            aCardIsSelected = false;
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void disableOpponentPlayedCardListener() {
+        selectedFromOpponent = false;
+        for (Node node : opponentPlayedCards.getChildren()) {
+            try  {
+                VBox vBox = (VBox) node;
+                vBox.setStyle(notSelectedStyle);
+                node.setOnMouseClicked(null);
+            } catch (ClassCastException e) {
+                System.out.println(node);
+            }
         }
     }
 
@@ -149,6 +223,7 @@ public class PlayingScreen implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        opponentHand.setDisable(true);
+        opponentPlayedCards.setDisable(true);
     }
 }
