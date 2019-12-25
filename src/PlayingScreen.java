@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 public class PlayingScreen implements Initializable {
     @FXML private Button endTurnButton;
     @FXML private GridPane opponent;
@@ -45,11 +46,12 @@ public class PlayingScreen implements Initializable {
 //            getCardHealth(myPlayedCards.getChildren().get(1));
 //            getCardNameLabel(myPlayedCards.getChildren().get(1));
 
-
             opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
             opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
             opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
             opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
+            opponentPlayedCards.add(setCardDetails("3", "1", "ANANI", "Images/BadLuckBrian.png"), 4, 0);
+//            opponentPlayedCards.add(, 4, 0);
             getCardNameLabel(opponentPlayedCards.getChildren().get(1)).setText("I wanna die");
             getCardAttack(opponentPlayedCards.getChildren().get(1)).setText("3");
 //            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
@@ -217,6 +219,22 @@ public class PlayingScreen implements Initializable {
                 System.out.println(node);
             }
         }
+    }
+
+    private Node setCardDetails(String attack, String health, String name, String imageURL) {
+        try {
+            Node newCard = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
+            getCardAttack(newCard).setText(attack);
+            getCardHealth(newCard).setText(health);
+            getCardNameLabel(newCard).setText(name);
+            getCardImage(newCard).setImage(urlToImage(imageURL));
+
+            return newCard;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private Label getCardNameLabel(Node Card) {
