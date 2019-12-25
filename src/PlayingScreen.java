@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -305,21 +306,53 @@ public class PlayingScreen implements Initializable {
     }
 
     private void listenToOtherPlayer() {
-        System.out.println("in runnable run");
-        if (isServer) {
-            try {
-                final String message = (String) Server.input.readObject();
-                if (message.equals("remove_card")) {
-                    myPlayedCards.getChildren().remove(1);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else {
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println("in runnable run");
+//                if (isServer) {
+//                    try {
+//                        final String message = (String) Server.input.readObject();
+//                        if (message.equals("remove_card")) {
+////                            myPlayedCards.getChildren().remove(1);
+//                            System.out.println(Thread.getAllStackTraces());
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (ClassNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//
+//                }
+//            }
+//        });
+        Runnable listener = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("in runnable run");
+                while (true) {
+                    if (isServer) {
+                        try {
+                            final String message = (String) Server.input.readObject();
+                            if (message.equals("remove_card")) {
+                                myPlayedCards.getChildren().remove(1);
+//                                System.out.println(Thread.getAllStackTraces());
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
 
-        }
+                    }
+                }
+            }
+        };
+
+        Thread serverThread = new Thread(listener);
+        serverThread.start();
     }
 
     @Override
