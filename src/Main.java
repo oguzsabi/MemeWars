@@ -4,7 +4,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -32,7 +31,7 @@ public class Main extends Application {
 
         Scene s = new Scene(root);
         primaryStage.setScene(s);
-        primaryStage.setTitle("BibTex Manager");
+        primaryStage.setTitle("Meme Wars");
         primaryStage.show();
     }
 }
