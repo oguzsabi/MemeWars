@@ -131,6 +131,7 @@ public class PlayingScreen implements Initializable {
         boolean bananaCondition = cardBanana <= myBnn; // Card can be played only if your Banana value is greater or equals to Banana value you have
         if (myHand.getChildren().size() < 11 && bananaCondition) {
             opponentPlayedCards.setDisable(false);
+            setOppPlayedCardsEnabled();
             myBanana.setText(Integer.toString(myBnn - cardBanana)); // Decrementing the banana value by the played cards banana value
             if (selectedFromHand) {
                 myHand.getChildren().remove(1, myHand.getChildren().size()); // Removes the card from the hand
@@ -257,7 +258,7 @@ public class PlayingScreen implements Initializable {
 
                         myHand.setDisable(true); // MyHand set Disable because next card should be selected form the opponents hand in order to attack
                         opponentPlayedCards.setDisable(false); // Opponents Card are now clickable and can be attacked
-//                        setOppPlayedCardsEnabled();
+                        setOppPlayedCardsEnabled();
 
                         aCardIsSelected = true;
                         setOpponentPlayedCardsListener();
@@ -528,14 +529,12 @@ public class PlayingScreen implements Initializable {
         for(int i = 1 ; i < myPlayedCards.getChildren().size() ;i++){
             defender = myPlayedCards.getChildren().get(i);
             if(getCardNameLabel(defender).getText().equals(eventDetails[1])){
-                System.out.println("vurulan kart" +getCardNameLabel(defender).getText());
                 break;
             }
         }
         for(int i = 1;i<opponentPlayedCards.getChildren().size();i++){
             attacker = opponentPlayedCards.getChildren().get(i);
             if(getCardNameLabel(attacker).getText().equals(eventDetails[2])){
-                System.out.println("vuran kart" + getCardNameLabel(attacker).getText());
                 break;
             }
         }
@@ -562,11 +561,9 @@ public class PlayingScreen implements Initializable {
     }
 
     private void updateUIElements(String[] eventDetails) {
-        System.out.println("in update ui elements");
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                System.out.println("in run" +eventDetails[0]);
                 switch (eventDetails[0]) {
                     case "card_play":
                         opponentBanana.setText(Integer.toString(Integer.parseInt(opponentBanana.getText()) - Integer.parseInt(eventDetails[5])));
@@ -585,7 +582,6 @@ public class PlayingScreen implements Initializable {
                         heroDamageTaken(eventDetails);
                         break;
                     case "hit_card":
-                        System.out.println("In hit card");
                         cardDamageTaken(eventDetails);
                         break;
                 }
@@ -595,8 +591,6 @@ public class PlayingScreen implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        opponentPlayedCards.setDisable(true);
-
         try {
             // adds 5 card back to opponent hand
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 0, 0);
@@ -615,6 +609,7 @@ public class PlayingScreen implements Initializable {
                 // Hero pictures set for client side
                 opponentHero.setImage(new Image("Images/KeanuReeves.png"));
                 myHero.setImage(new Image("Images/PewDiePie.png"));
+
                 myPlayedCards.setDisable(true);
                 myHand.setDisable(true);
                 myDeck = deck.getDeck2();
