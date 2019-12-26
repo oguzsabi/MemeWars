@@ -51,7 +51,18 @@ public class PlayingScreen implements Initializable {
 
     @FXML
     private void bigYeet() {
+        if(isServer){
+            try {
+                Server.output.writeObject("big_yeet");
+                Server.output.flush();
+                System.exit(1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
 
+        }
     }
 
     public void putCardFromMyHandToMyTable() {
@@ -371,6 +382,9 @@ public class PlayingScreen implements Initializable {
                                 myHand.setDisable(false);
                                 endTurnButton.setDisable(false);
                             }
+                            if(message.equals("big_yeet")){
+                                System.exit(1);
+                            }
 
                             final String[] eventDetails = message.split(",");
                             updateUIElements(eventDetails);
@@ -387,6 +401,10 @@ public class PlayingScreen implements Initializable {
                                 myHand.setDisable(false);
                                 endTurnButton.setDisable(false);
                             }
+                            if(message.equals("big_yeet")){
+                                System.exit(1);
+                            }
+
 
                             final String[] eventDetails = message.split(",");
                             updateUIElements(eventDetails);
