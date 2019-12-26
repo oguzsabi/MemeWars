@@ -7,14 +7,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,62 +31,64 @@ public class PlayingScreen implements Initializable {
     boolean selectedFromHand = false;
     boolean selectedFromTable = false;
     boolean selectedFromOpponent = false;
-    boolean[] emptyIndexOnTable = {true, true, true, true, true, true};
-    boolean[] emptyIndexOnHand = {false, false, false, false, false, true, true, true, true, true};
+    boolean[] emptyIndexOnMyTable = {true, true, true, true, true, true};
+    boolean[] emptyIndexOnOppTable = {true, true, true, true, true, true};
+    boolean[] emptyIndexOnMyHand = {false, false, false, false, false, true, true, true, true, true};
+    boolean[] emptyIndexOnOppHand = {false, false, false, false, false, true, true, true, true, true};
     Node selectedCard = null;
     String selectedStyle = "-fx-border-color: #0066ff; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
     String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
 
     public void loadCard(ActionEvent event) {
-        try {
-//                Pane soAnyWay = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
-//                Pane itsRaw = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
-
-//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
-//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
-//            getCardImage(myPlayedCards.getChildren().get(1)).setImage(urlToImage("Images/Kobe.png"));
-//            getCardAttack(myPlayedCards.getChildren().get(1)).setText();
-//            getCardHealth(myPlayedCards.getChildren().get(1));
-//            getCardNameLabel(myPlayedCards.getChildren().get(1));
-
-//            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
-//            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
-//            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
-//            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
-//            opponentPlayedCards.add(setCardDetails("3", "1", "ANANI", "Images/BadLuckBrian.png"), 4, 0);
-////            opponentPlayedCards.add(, 4, 0);
-//            getCardNameLabel(opponentPlayedCards.getChildren().get(1)).setText("I wanna die");
-//            getCardAttack(opponentPlayedCards.getChildren().get(1)).setText("3");
-//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+//        try {
+////                Pane soAnyWay = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
+////                Pane itsRaw = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
 //
-//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
-//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
-//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);
-//            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
-//                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
-
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
-//            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 5, 0);
-//            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 6, 0);
-//            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 7, 0);
-//            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 8, 0);
-//                ((VBox) otherPane.getChildren().get(0)).fillWidthProperty().bind(otherPane.getWidth());
-//                System.out.println(getCardHealth(myPlayedCards.getChildren().get(0)).getText());
-//                System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(3)).getText());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
+////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+////            getCardImage(myPlayedCards.getChildren().get(1)).setImage(urlToImage("Images/Kobe.png"));
+////            getCardAttack(myPlayedCards.getChildren().get(1)).setText();
+////            getCardHealth(myPlayedCards.getChildren().get(1));
+////            getCardNameLabel(myPlayedCards.getChildren().get(1));
+//
+////            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
+////            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+////            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
+////            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
+////            opponentPlayedCards.add(setCardDetails("3", "1", "ANANI", "Images/BadLuckBrian.png"), 4, 0);
+//////            opponentPlayedCards.add(, 4, 0);
+////            getCardNameLabel(opponentPlayedCards.getChildren().get(1)).setText("I wanna die");
+////            getCardAttack(opponentPlayedCards.getChildren().get(1)).setText("3");
+////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
+////
+////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
+////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
+////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);
+////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
+////                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
+//
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 5, 0);
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 6, 0);
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 7, 0);
+////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 8, 0);
+////                ((VBox) otherPane.getChildren().get(0)).fillWidthProperty().bind(otherPane.getWidth());
+////                System.out.println(getCardHealth(myPlayedCards.getChildren().get(0)).getText());
+////                System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(3)).getText());
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
-    public void putCardFromHandToTable() {
+    public void putCardFromMyHandToMyTable() {
         boolean emptySpaceExists = false;
 
-        for (boolean empty: emptyIndexOnTable) {
+        for (boolean empty: emptyIndexOnMyTable) {
             if (empty) {
                 emptySpaceExists = true;
                 break;
@@ -98,13 +98,39 @@ public class PlayingScreen implements Initializable {
         if (emptySpaceExists) {
             if (selectedFromHand) {
                 myHand.getChildren().remove(selectedCard);
-                for (int emptyIndex = 0; emptyIndex < emptyIndexOnTable.length; emptyIndex++) {
-                    if (emptyIndexOnTable[emptyIndex]) {
+                for (int emptyIndex = 0; emptyIndex < emptyIndexOnMyTable.length; emptyIndex++) {
+                    if (emptyIndexOnMyTable[emptyIndex]) {
                         selectedCard.setStyle(notSelectedStyle);
                         selectedCard = setCardDetails(selectedCard);
                         myPlayedCards.add(selectedCard, emptyIndex, 0);
-                        emptyIndexOnTable[emptyIndex] = false;
+                        emptyIndexOnMyTable[emptyIndex] = false;
                         break;
+                    }
+                }
+
+                String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().impl_getUrl().split("/");
+                final String imageRelativePath = imageAbsolutePathArray[imageAbsolutePathArray.length - 2] + "/" + imageAbsolutePathArray[imageAbsolutePathArray.length - 1];
+
+                String eventDetails = "card_play,";
+                eventDetails += getCardNameLabel(selectedCard).getText() + ",";
+                eventDetails += imageRelativePath + ",";
+                eventDetails += getCardAttack(selectedCard).getText() + ",";
+                eventDetails += getCardHealth(selectedCard).getText();
+
+                if (isServer) {
+                    try {
+
+                        Server.output.writeObject(eventDetails);
+                        Server.output.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        Client.output.writeObject(eventDetails);
+                        Client.output.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -113,6 +139,31 @@ public class PlayingScreen implements Initializable {
                 selectedFromHand = false;
                 setMyPlayedCardsListener();
             }
+        }
+    }
+
+    public void putCardFromOppHandToOppTable(String[] eventDetails) {
+        boolean emptySpaceExists = false;
+
+        for (boolean empty: emptyIndexOnOppTable) {
+            if (empty) {
+                emptySpaceExists = true;
+                break;
+            }
+        }
+
+        if (emptySpaceExists) {
+            opponentHand.getChildren().remove(opponentHand.getChildren().size() - 1);
+            for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppTable.length; emptyIndex++) {
+                if (emptyIndexOnOppTable[emptyIndex]) {
+                    Node newCard;
+                    newCard = setCardDetails(eventDetails[1], eventDetails[2], eventDetails[3], eventDetails[4]);
+                    opponentPlayedCards.add(newCard, emptyIndex, 0);
+                    emptyIndexOnOppTable[emptyIndex] = false;
+                    break;
+                }
+            }
+            setOpponentPlayedCardsListener();
         }
     }
 
@@ -129,8 +180,8 @@ public class PlayingScreen implements Initializable {
             e.printStackTrace();
         }
         loadCard(event);
-        setMyPlayedCardsListener();
-        setMyHandListener();
+//        setMyPlayedCardsListener();
+//        setMyHandListener();
     }
 
     private void setMyPlayedCardsListener() {
@@ -192,7 +243,7 @@ public class PlayingScreen implements Initializable {
                         VBox vBox = (VBox) node;
                         vBox.setStyle(selectedStyle);
 
-                        putCardFromHandToTable();
+                        putCardFromMyHandToMyTable();
 
 
                     } else {
@@ -227,7 +278,7 @@ public class PlayingScreen implements Initializable {
                         }
 
                         if (Integer.parseInt(getCardHealth(selectedCard).getText()) <= 0) {
-                            emptyIndexOnTable[myPlayedCards.getChildren().indexOf(selectedCard) - 1] = true;
+                            emptyIndexOnMyTable[myPlayedCards.getChildren().indexOf(selectedCard) - 1] = true;
                             myPlayedCards.getChildren().remove(selectedCard);
                             myHand.setDisable(false);
                             aCardIsSelected = false;
@@ -251,7 +302,7 @@ public class PlayingScreen implements Initializable {
         }
     }
 
-    private Node setCardDetails(String attack, String health, String name, String imageURL) {
+    private Node setCardDetails(String name, String imageURL, String attack, String health) {
         try {
             Node newCard = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
             getCardAttack(newCard).setText(attack);
@@ -308,102 +359,49 @@ public class PlayingScreen implements Initializable {
     }
 
     private void listenToOtherPlayer() {
-//        Platform.runLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                System.out.println("in runnable run");
-//                if (isServer) {
-//                    try {
-//                        final String message = (String) Server.input.readObject();
-//                        if (message.equals("remove_card")) {
-////                            myPlayedCards.getChildren().remove(1);
-//                            System.out.println(Thread.getAllStackTraces());
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (ClassNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//
-//                }
-//            }
-//        });
-
-//        new Thread(new Runnable() {
-//            @Override public void run() {
-//                while (true) {
-//                    Platform.runLater(new Runnable() {
-//                        @Override public void run() {
-//                            System.out.println("in run");
-//                        }
-//                    });
-//                }
-//            }
-//        }).start();
-//        Runnable listener = new Runnable() {
-//            @Override
-//            public void run() {
-//                System.out.println("in runnable run");
-//                while (true) {
-//                    if (isServer) {
-//                        try {
-//                            final String message = (String) Server.input.readObject();
-//                            if (message.equals("remove_card")) {
-//                                myPlayedCards.getChildren().remove(1);
-////                                System.out.println(Thread.getAllStackTraces());
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        } catch (ClassNotFoundException e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else {
-//
-//                    }
-//                }
-//            }
-//        };
-//
-//        Thread serverThread = new Thread(listener);
-//        serverThread.start();
-
         Task task = new Task<Void>() {
             @Override
             public Void call() {
-//                System.out.println("in task");
                 while (true) {
                     if (isServer) {
                         try {
+                            System.out.println("in server");
                             final String message = (String) Server.input.readObject();
-                            System.out.println(message);
-                            if (message.equals("remove_card")) {
-                                updateUIElements();
-//                                myPlayedCards.getChildren().removeAll();
-//                                System.out.println(Thread.getAllStackTraces());
-                            }
+                            final String[] eventDetails = message.split(",");
+                            updateUIElements(eventDetails);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
+                            break;
                         }
                     } else {
-
+                        try {
+                            System.out.println("in client");
+                            final String message = (String) Client.input.readObject();
+                            final String[] eventDetails = message.split(",");
+                            updateUIElements(eventDetails);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            break;
+                        }
                     }
                 }
+                return null;
             }
         };
 
         new Thread(task).start();
     }
 
-    private void updateUIElements() {
+    private void updateUIElements(String[] eventDetails) {
         System.out.println("in update ui elements");
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                System.out.println("in runnable run");
-                System.out.println(myPlayedCards.getChildren().remove(1));
+                if (eventDetails[0].equals("card_play")) {
+                    putCardFromOppHandToOppTable(eventDetails);
+                }
             }
         });
     }
@@ -414,11 +412,20 @@ public class PlayingScreen implements Initializable {
         opponentPlayedCards.setDisable(true);
 
         try {
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
+            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
+
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 0, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 1, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 2, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 3, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 4, 0);
+
+            setMyPlayedCardsListener();
+            setMyHandListener();
         } catch (IOException e) {
             e.printStackTrace();
         }
