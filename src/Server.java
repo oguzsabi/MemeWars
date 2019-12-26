@@ -133,16 +133,4 @@ public class Server extends Application {
             e.printStackTrace();
         }
     }
-
-    //send a message to client
-    private void sendMessage(String message) {
-        try {
-            output.writeObject("SERVER - " + message);
-            output.flush();
-
-//            showMessage("\nSERVER - " + message);
-        } catch (IOException e) {
-//            chatWindow.append("\n ERROR: DUDE I CAN'T SEND THAT MESSAGE");
-        }
-    }
 }

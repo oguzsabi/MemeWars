@@ -100,7 +100,7 @@ public class PlayingScreen implements Initializable {
                     }
                 }
 
-                String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().getUrl().split("/");
+                String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().getUrl().split("/"); // Gets the image of the card
                 final String imageRelativePath = imageAbsolutePathArray[imageAbsolutePathArray.length - 2] + "/" + imageAbsolutePathArray[imageAbsolutePathArray.length - 1];
 
                 String eventDetails = "card_play,";
@@ -136,7 +136,7 @@ public class PlayingScreen implements Initializable {
     public void putCardFromOppHandToOppTable(String[] eventDetails) {
         boolean emptySpaceExists = false;
 
-        for (boolean empty: emptyIndexOnOppTable) {
+        for (boolean empty: emptyIndexOnOppTable) { // Finds the empty space at field
             if (empty) {
                 emptySpaceExists = true;
                 break;
