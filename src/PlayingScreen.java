@@ -144,7 +144,7 @@ public class PlayingScreen implements Initializable {
         }
 
         if (emptySpaceExists) {
-            emptyIndexOnOppHand[opponentHand.getChildren().size() - 1] = true;
+            emptyIndexOnOppHand[opponentHand.getChildren().size() - 2] = true;
             opponentHand.getChildren().remove(opponentHand.getChildren().size() - 1);
 
             for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppTable.length; emptyIndex++) {
@@ -171,8 +171,8 @@ public class PlayingScreen implements Initializable {
                 if (emptyIndexOnOppHand[emptyIndex]) {
                     try {
                         Node cardBack = FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml"));
-                        opponentHand.add(cardBack, emptyIndex - 1, 0);
-                        emptyIndexOnOppHand[emptyIndex - 1] = false;
+                        opponentHand.add(cardBack, emptyIndex, 0);
+                        emptyIndexOnOppHand[emptyIndex] = false;
                         break;
                     } catch (IOException e) {
                         e.printStackTrace();
