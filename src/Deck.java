@@ -78,15 +78,15 @@ public class Deck {
     }
 
     public ArrayList<Card> getDeck1(){
+        shuffle(deck1);
         return deck1;
     }
     public ArrayList<Card> getDeck2(){
+        shuffle(deck2);
         return deck2;
     }
 
-    public ArrayList<Card> shuffle(ArrayList<Card> deck){
+    private void shuffle(ArrayList<Card> deck){
         Collections.shuffle(deck);
-        return deck;
     }
-
 }
