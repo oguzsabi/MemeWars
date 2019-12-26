@@ -114,8 +114,6 @@ public class PlayingScreen implements Initializable {
                 String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().impl_getUrl().split("/");
                 final String imageRelativePath = imageAbsolutePathArray[imageAbsolutePathArray.length - 2] + "/" + imageAbsolutePathArray[imageAbsolutePathArray.length - 1];
 
-
-
                 String eventDetails = "card_play,";
                 eventDetails += getCardNameLabel(selectedCard).getText() + ",";
                 eventDetails += imageRelativePath + ",";
@@ -354,7 +352,7 @@ public class PlayingScreen implements Initializable {
     }
 
     private Image urlToImage(String url) {
-        return new ImageWithURL(url);
+        return new Image(url);
     }
 
     private Label getCardAttack(Node Card) {
