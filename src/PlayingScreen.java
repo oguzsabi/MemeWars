@@ -117,7 +117,7 @@ public class PlayingScreen implements Initializable {
                 String eventDetails = "card_play,";
                 eventDetails += getCardNameLabel(selectedCard).getText() + ",";
                 eventDetails += imageRelativePath + ",";
-                eventDetails += getCardAttack(selectedCard).getText() + ",";
+                eventDetails += getCardDamage(selectedCard).getText() + ",";
                 eventDetails += getCardHealth(selectedCard).getText();
 
                 if (isServer) {
@@ -277,8 +277,8 @@ public class PlayingScreen implements Initializable {
                         vBox.setStyle(selectedStyle);
                         selectedFromOpponent = true;
 
-                        getCardHealth(node).setText(String.valueOf(Integer.parseInt(getCardHealth(node).getText()) - Integer.parseInt(getCardAttack(selectedCard).getText())));
-                        getCardHealth(selectedCard).setText(String.valueOf(Integer.parseInt(getCardHealth(selectedCard).getText()) - Integer.parseInt(getCardAttack(node).getText())));
+                        getCardHealth(node).setText(String.valueOf(Integer.parseInt(getCardHealth(node).getText()) - Integer.parseInt(getCardDamage(selectedCard).getText())));
+                        getCardHealth(selectedCard).setText(String.valueOf(Integer.parseInt(getCardHealth(selectedCard).getText()) - Integer.parseInt(getCardDamage(node).getText())));
                         if (Integer.parseInt(getCardHealth(node).getText()) <= 0) {
                             opponentPlayedCards.getChildren().remove(node);
                             selectedFromOpponent = false;
@@ -312,7 +312,7 @@ public class PlayingScreen implements Initializable {
     private Node setCardDetails(String name, String imageURL, String attack, String health) {
         try {
             Node newCard = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
-            getCardAttack(newCard).setText(attack);
+            getCardDamage(newCard).setText(attack);
             getCardHealth(newCard).setText(health);
             getCardNameLabel(newCard).setText(name);
             getCardImage(newCard).setImage(urlToImage(imageURL));
@@ -328,7 +328,7 @@ public class PlayingScreen implements Initializable {
     private Node setCardDetails(Node card) {
         try {
             Node newCard = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
-            getCardAttack(newCard).setText(getCardAttack(card).getText());
+            getCardDamage(newCard).setText(getCardDamage(card).getText());
             getCardHealth(newCard).setText(getCardHealth(card).getText());
             getCardNameLabel(newCard).setText(getCardNameLabel(card).getText());
             getCardImage(newCard).setImage(getCardImage(card).getImage());
@@ -355,7 +355,7 @@ public class PlayingScreen implements Initializable {
         return new Image(url);
     }
 
-    private Label getCardAttack(Node Card) {
+    private Label getCardDamage(Node Card) {
         VBox vBox = (VBox) Card;
         return ((Label) ((FlowPane) ((GridPane) vBox.getChildren().get(2)).getChildren().get(0)).getChildren().get(1));
     }
@@ -443,9 +443,6 @@ public class PlayingScreen implements Initializable {
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 3, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 4, 0);
 
-            setMyPlayedCardsListener();
-            setMyHandListener();
-
             Deck deck = new Deck();
             if (isServer) {
                 myTurn = true;
@@ -454,6 +451,7 @@ public class PlayingScreen implements Initializable {
                 myPlayedCards.setDisable(true);
                 myHand.setDisable(true);
                 myDeck = deck.getDeck2();
+                endTurnButton.setDisable(true);
             }
 
             for (int i = 0; i < 5; i++) {
@@ -464,6 +462,8 @@ public class PlayingScreen implements Initializable {
 //                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
 //                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
             }
+            setMyPlayedCardsListener();
+            setMyHandListener();
 
         } catch (IOException e) {
             e.printStackTrace();
