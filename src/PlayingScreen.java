@@ -33,12 +33,12 @@ public class PlayingScreen implements Initializable {
     @FXML private Label myHealth;
     @FXML private ImageView opponentHero;
     @FXML private ImageView myHero;
+    ArrayList<Node> myHandList = new ArrayList<>();
     static boolean isServer = false;
     boolean aCardIsSelected = false;
     boolean selectedFromHand = false;
     boolean selectedFromTable = false;
     boolean selectedFromOpponent = false;
-    boolean myTurn = false;
     int turnCounter = 1;
     boolean[] emptyIndexOnMyTable = {true, true, true, true, true, true};
     boolean[] emptyIndexOnOppTable = {true, true, true, true, true, true};
@@ -90,6 +90,10 @@ public class PlayingScreen implements Initializable {
         if (emptySpaceExists && bananaCondition) {
             myBanana.setText(Integer.toString(myBnn - cardBanana)); // Decrementing the banana value by the played cards banana value
             if (selectedFromHand) {
+                emptyIndexOnMyHand[myHand.getChildren().indexOf(selectedCard) - 1] = true;
+                System.out.println("index of selected card " + myHand.getChildren().indexOf(selectedCard));
+                System.out.println(selectedCard);
+                System.out.println(myHand.getChildren());
                 myHand.getChildren().remove(selectedCard); // Removes the card from the hand
                 for (int emptyIndex = 0; emptyIndex < emptyIndexOnMyTable.length; emptyIndex++) {
                     if (emptyIndexOnMyTable[emptyIndex]) {
@@ -147,7 +151,7 @@ public class PlayingScreen implements Initializable {
         }
 
         if (emptySpaceExists) {
-            emptyIndexOnOppHand[opponentHand.getChildren().size() - 1] = true;
+            emptyIndexOnOppHand[opponentHand.getChildren().size() - 2] = true;
             opponentHand.getChildren().remove(opponentHand.getChildren().size() - 1);
 
             for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppTable.length; emptyIndex++) {
@@ -165,11 +169,37 @@ public class PlayingScreen implements Initializable {
     }
 
     public void drawCardFromDeck() {
+        boolean emptySpaceExists = false;
 
+        for (boolean empty: emptyIndexOnMyHand) { // Finds the empty space at field
+            if (empty) {
+                emptySpaceExists = true;
+                break;
+            }
+        }
+
+        if (emptySpaceExists) {
+            for (int emptyIndex = 0; emptyIndex < emptyIndexOnMyHand.length; emptyIndex++) {
+                if (emptyIndexOnMyHand[emptyIndex]) {
+                    System.out.println("empty index " + emptyIndex);
+                    Card cardInfo = myDeck.get(0);
+                    myDeck.remove(myDeck.get(0));
+                    Node newCard;
+                    newCard = setCardDetails(cardInfo.getCardName(), cardInfo.getCardURL(), Integer.toString(cardInfo.getDamage()), Integer.toString(cardInfo.getHealth()), Integer.toString(cardInfo.getBanana()));
+                    myHand.add(newCard, emptyIndex, 0);
+//                    myHand.getChildren().remove(1, myHand.getChildren().size());
+//                    myHand.getChildren().addAll(myHandList);
+
+                    emptyIndexOnMyHand[emptyIndex] = false;
+                    break;
+                }
+            }
+
+            setMyHandListener();
+        }
     }
 
     public void endTurn(ActionEvent event) {
-        myTurn = false;
         endTurnButton.setDisable(true);
         myPlayedCards.setDisable(true);
         myHand.setDisable(true);
@@ -179,8 +209,8 @@ public class PlayingScreen implements Initializable {
                 if (emptyIndexOnOppHand[emptyIndex]) {
                     try {
                         Node cardBack = FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")); // Adds a card back picture to Opponents Hand
-                        opponentHand.add(cardBack, emptyIndex - 1, 0);
-                        emptyIndexOnOppHand[emptyIndex - 1] = false;
+                        opponentHand.add(cardBack, emptyIndex, 0);
+                        emptyIndexOnOppHand[emptyIndex] = false;
                         break;
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -354,6 +384,23 @@ public class PlayingScreen implements Initializable {
         return null;
     }
 
+    private Node setCardDetails(String name, String imageURL, String attack, String health, String banana) {
+        try {
+            Node newCard = FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml"));
+            getCardNameLabel(newCard).setText(name);
+            getCardImage(newCard).setImage(urlToImage(imageURL));
+            getCardDamage(newCard).setText(attack);
+            getCardHealth(newCard).setText(health);
+            getCardBanana(newCard).setText(banana);
+
+            return newCard;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     private Node setCardDetails(Node card) {
         try {
             // Creating the card from the hand
@@ -411,13 +458,6 @@ public class PlayingScreen implements Initializable {
                             // Action Cases
                             System.out.println("in server");
                             final String message = (String) Server.input.readObject();
-                            System.out.println(message);
-                            if (message.equals("end_turn")) {
-                                myTurn = true;
-                                myPlayedCards.setDisable(false);
-                                myHand.setDisable(false);
-                                endTurnButton.setDisable(false);
-                            }
                             if(message.equals("big_yeet")){
                                 System.exit(1);
                             }
@@ -433,16 +473,9 @@ public class PlayingScreen implements Initializable {
                             // Action Cases
                             System.out.println("in client");
                             final String message = (String) Client.input.readObject();
-                            if (message.equals("end_turn")) {
-                                myTurn = true;
-                                myPlayedCards.setDisable(false);
-                                myHand.setDisable(false);
-                                endTurnButton.setDisable(false);
-                            }
                             if(message.equals("big_yeet")){
                                 System.exit(1);
                             }
-
 
                             final String[] eventDetails = message.split(",");
                             updateUIElements(eventDetails);
@@ -463,9 +496,18 @@ public class PlayingScreen implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if (eventDetails[0].equals("card_play")) {
-                    opponentBanana.setText(Integer.toString(Integer.parseInt(opponentBanana.getText()) - Integer.parseInt(eventDetails[5])));
-                    putCardFromOppHandToOppTable(eventDetails);
+                switch (eventDetails[0]) {
+                    case "card_play":
+                        opponentBanana.setText(Integer.toString(Integer.parseInt(opponentBanana.getText()) - Integer.parseInt(eventDetails[5])));
+                        putCardFromOppHandToOppTable(eventDetails);
+                        break;
+
+                    case "end_turn":
+                        myPlayedCards.setDisable(false);
+                        myHand.setDisable(false);
+                        endTurnButton.setDisable(false);
+                        drawCardFromDeck();
+                        break;
                 }
             }
         });
@@ -489,7 +531,6 @@ public class PlayingScreen implements Initializable {
                 // Hero pictures set for server side
                 myHero.setImage(new Image("Images/KeanuReeves.png"));
                 opponentHero.setImage(new Image("Images/PewDiePie.png"));
-                myTurn = true;
                 myDeck = deck.getDeck1();
             } else {
                 // Hero pictures set for client side
@@ -509,6 +550,7 @@ public class PlayingScreen implements Initializable {
                 getCardDamage(handCard).setText(Integer.toString(myDeck.get(0).getDamage()));
                 getCardHealth(handCard).setText(Integer.toString(myDeck.get(0).getHealth()));
                 getCardBanana(handCard).setText(Integer.toString(myDeck.get(0).getBanana()));
+                myHandList.add(handCard);
                 myHand.add(handCard, i, 0);
                 //Removing the card from the deck
                 myDeck.remove(myDeck.get(0));
