@@ -15,6 +15,7 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -31,10 +32,12 @@ public class PlayingScreen implements Initializable {
     boolean selectedFromHand = false;
     boolean selectedFromTable = false;
     boolean selectedFromOpponent = false;
+    boolean myTurn = false;
     boolean[] emptyIndexOnMyTable = {true, true, true, true, true, true};
     boolean[] emptyIndexOnOppTable = {true, true, true, true, true, true};
     boolean[] emptyIndexOnMyHand = {false, false, false, false, false, true, true, true, true, true};
     boolean[] emptyIndexOnOppHand = {false, false, false, false, false, true, true, true, true, true};
+    ArrayList<Card> myDeck;
     Node selectedCard = null;
     String selectedStyle = "-fx-border-color: #0066ff; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
     String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
@@ -111,6 +114,8 @@ public class PlayingScreen implements Initializable {
                 String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().impl_getUrl().split("/");
                 final String imageRelativePath = imageAbsolutePathArray[imageAbsolutePathArray.length - 2] + "/" + imageAbsolutePathArray[imageAbsolutePathArray.length - 1];
 
+
+
                 String eventDetails = "card_play,";
                 eventDetails += getCardNameLabel(selectedCard).getText() + ",";
                 eventDetails += imageRelativePath + ",";
@@ -168,18 +173,22 @@ public class PlayingScreen implements Initializable {
     }
 
     public void endTurn(ActionEvent event) {
+        myTurn = false;
+        endTurnButton.setDisable(true);
+        myPlayedCards.setDisable(true);
+        myHand.setDisable(true);
         try {
             if (isServer) {
-                Server.output.writeObject("remove_card");
+                Server.output.writeObject("end_turn");
                 Server.output.flush();
             } else {
-                Client.output.writeObject("remove_card");
+                Client.output.writeObject("end_turn");
                 Client.output.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        loadCard(event);
+//        loadCard(event);
 //        setMyPlayedCardsListener();
 //        setMyHandListener();
     }
@@ -345,7 +354,7 @@ public class PlayingScreen implements Initializable {
     }
 
     private Image urlToImage(String url) {
-        return new Image(url);
+        return new ImageWithURL(url);
     }
 
     private Label getCardAttack(Node Card) {
@@ -367,22 +376,33 @@ public class PlayingScreen implements Initializable {
                         try {
                             System.out.println("in server");
                             final String message = (String) Server.input.readObject();
+                            System.out.println(message);
+                            if (message.equals("end_turn")) {
+                                myTurn = true;
+                                myPlayedCards.setDisable(false);
+                                myHand.setDisable(false);
+                                endTurnButton.setDisable(false);
+                            }
+
                             final String[] eventDetails = message.split(",");
                             updateUIElements(eventDetails);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
+                        } catch (IOException | ClassNotFoundException e) {
                             break;
                         }
                     } else {
                         try {
                             System.out.println("in client");
                             final String message = (String) Client.input.readObject();
+                            if (message.equals("end_turn")) {
+                                myTurn = true;
+                                myPlayedCards.setDisable(false);
+                                myHand.setDisable(false);
+                                endTurnButton.setDisable(false);
+                            }
+
                             final String[] eventDetails = message.split(",");
                             updateUIElements(eventDetails);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
+                        } catch (IOException | ClassNotFoundException e) {
                             break;
                         }
                     }
@@ -412,11 +432,7 @@ public class PlayingScreen implements Initializable {
         opponentPlayedCards.setDisable(true);
 
         try {
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
-            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
+
 
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 0, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 1, 0);
@@ -426,6 +442,26 @@ public class PlayingScreen implements Initializable {
 
             setMyPlayedCardsListener();
             setMyHandListener();
+
+            Deck deck = new Deck();
+            if (isServer) {
+                myTurn = true;
+                myDeck = deck.getDeck1();
+            } else {
+                myPlayedCards.setDisable(true);
+                myHand.setDisable(true);
+                myDeck = deck.getDeck2();
+            }
+
+            for (int i = 0; i < 5; i++) {
+
+                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
+//                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
+//                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
+//                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
+//                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

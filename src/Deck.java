@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 
 public class Deck {
-    ArrayList<Card> deck1 = new ArrayList<>();
-    ArrayList<Card> deck2 = new ArrayList<>();
-    ArrayList<Card> cards = new ArrayList<>();
-    DefaultCards defaultCards = new DefaultCards();
-    public void decks(){
+    private ArrayList<Card> deck1;
+    private ArrayList<Card> deck2;
 
-        cards = defaultCards.getCards();
+    public Deck(){
+        deck1 = new ArrayList<>();
+        deck2 = new ArrayList<>();
+        DefaultCards defaultCards = new DefaultCards();
+        ArrayList<Card> cards = defaultCards.getCards();
+
         deck1.add(cards.get(0));
         deck1.add(cards.get(1));
         deck1.add(cards.get(2));
@@ -41,8 +43,6 @@ public class Deck {
         deck1.add(cards.get(40));
 
         // Second deck begins
-
-
         deck2.add(cards.get(0));
         deck2.add(cards.get(1));
         deck2.add(cards.get(2));
@@ -74,7 +74,6 @@ public class Deck {
         deck2.add(cards.get(37));
         deck2.add(cards.get(39));
         deck2.add(cards.get(41));
-
     }
 
     public ArrayList<Card> getDeck1(){
