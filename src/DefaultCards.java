@@ -6,7 +6,7 @@ public class DefaultCards {
 
     public DefaultCards() {
         cards = new ArrayList<>();
-
+        // All cards are added to cards ArrayList in order to reach from other classes
         cards.add(youHaveNoPowerHere); // 0
         cards.add(whyUNoAttack); // 1
         cards.add(heNeedSomeMilk); // 2
@@ -58,7 +58,7 @@ public class DefaultCards {
     }
 
     public static Card defaultMinion = new Card("Minion","", 1, 1, 1,"", true, false,true,true, null);
-
+    // All cards are created here
     private Card youHaveNoPowerHere = new Card("You Have No Power Here","Images/YouHaveNoPowerHere.png",6, 4, 4,"BC", true, false, true, true, new ArrayList<>(Arrays.asList("DecreaseDamageEveryone", 1)));
     private Card whyUNoAttack = new Card("Why U No Attack","Images/YuNo.png",3, 2, 3,"BC", true, true,true,true, new ArrayList<>(Arrays.asList("DamageTarget", 1)));
     private Card heNeedSomeMilk = new Card("He Need Some Milk","Images/HeNeedSomeMilk.png", 3,4,3,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("HealTarget",1)));

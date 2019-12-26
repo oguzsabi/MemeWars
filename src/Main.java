@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+    // This class is not being used
     public static void main(String[] args) {
         Event event = new Event(new User());
         DefaultCards defaultCards = new DefaultCards();

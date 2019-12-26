@@ -2,6 +2,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class Hand {
+    // This class is not being used anymore
     ArrayList<Card> hand = new ArrayList<>();
     SecureRandom random = new SecureRandom();
 

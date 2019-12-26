@@ -50,7 +50,7 @@ public class PlayingScreen implements Initializable {
     String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
 
     @FXML
-    private void bigYeet() {
+    private void bigYeet() { // Button for leaving the game
         if(isServer){
             try {
                 Server.output.writeObject("big_yeet");
@@ -61,14 +61,21 @@ public class PlayingScreen implements Initializable {
             }
         }
         else{
-
+            try {
+                Client.output.writeObject("big_yeet");
+                Client.output.flush();
+                System.exit(1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     public void putCardFromMyHandToMyTable() {
         boolean emptySpaceExists = false;
 
-        for (boolean empty: emptyIndexOnMyTable) {
+        for (boolean empty: emptyIndexOnMyTable) { // Finding the available space for card to be put
             if (empty) {
                 emptySpaceExists = true;
                 break;
@@ -78,17 +85,17 @@ public class PlayingScreen implements Initializable {
         int cardBanana = Integer.parseInt(getCardBanana(selectedCard).getText());
         int myBnn = Integer.parseInt(myBanana.getText());
 
-        boolean bananaCondition = cardBanana <= myBnn;
+        boolean bananaCondition = cardBanana <= myBnn; // Card can be played only if your Banana value is greater or equals to Banana value you have
         if (emptySpaceExists && bananaCondition) {
-            myBanana.setText(Integer.toString(myBnn - cardBanana));
+            myBanana.setText(Integer.toString(myBnn - cardBanana)); // Decrementing the banana value by the played cards banana value
             if (selectedFromHand) {
-                myHand.getChildren().remove(selectedCard);
+                myHand.getChildren().remove(selectedCard); // Removes the card from the hand
                 for (int emptyIndex = 0; emptyIndex < emptyIndexOnMyTable.length; emptyIndex++) {
                     if (emptyIndexOnMyTable[emptyIndex]) {
                         selectedCard.setStyle(notSelectedStyle);
                         selectedCard = setCardDetails(selectedCard);
-                        myPlayedCards.add(selectedCard, emptyIndex, 0);
-                        emptyIndexOnMyTable[emptyIndex] = false;
+                        myPlayedCards.add(selectedCard, emptyIndex, 0); // Putting the card to the field
+                        emptyIndexOnMyTable[emptyIndex] = false; // Changing the spot full
                         break;
                     }
                 }

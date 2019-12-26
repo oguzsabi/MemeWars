@@ -18,29 +18,6 @@ public class Client extends Application {
     public static String serverIP;
     public static Socket connection;
 
-//    public Client(String host) {
-//        super("Client-side");
-//        serverIP = host;
-//        userText = new JTextField();
-//        userText.setEditable(false);
-//        userText.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        sendMessage(e.getActionCommand());
-//                        userText.setText("");
-//                    }
-//                }
-//        );
-//
-//        add(userText, BorderLayout.SOUTH);
-//        chatWindow = new JTextArea();
-//        chatWindow.setEditable(false);
-//        add(new JScrollPane(chatWindow));
-//        setSize(300, 150);
-//        setVisible(true);
-//    }
-
     public static void main(String[] args) {
         serverIP = "127.0.0.1";
         try {
@@ -58,50 +35,22 @@ public class Client extends Application {
     }
 
     //connect to server
-//    public static void startRunning() {
-//        try {
-//            connectToServer();
-//            setupStreams();
-////            whileChatting();
-//        } catch (EOFException e) {
-////            showMessage("\n Client terminated connection!");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            closeCrap();
-//        }
-//    }
-
-    //connect to server
-    private static void connectToServer() throws IOException {
+    private static void connectToServer() throws IOException { // Server Connection establishing here
 //        showMessage("Attempting connection... \n");
-        connection = new Socket(InetAddress.getByName(serverIP), 6789);
+        connection = new Socket(InetAddress.getByName(serverIP), 6789); // server IP and server Ports are predefined with values 127.0.0.1 and 6789
 //        showMessage("Connected to: " + connection.getInetAddress().getHostName());
     }
 
-    //setup streams to send and receive messages
-    private static void setupStreams() throws IOException {
+
+    private static void setupStreams() throws IOException { //setup streams to send and receive messages
         output = new ObjectOutputStream(connection.getOutputStream());
         output.flush();
         input = new ObjectInputStream(connection.getInputStream());
 //        showMessage("\n Streams are good to go! \n");
     }
 
-    //while chatting with server
-    private void whileChatting() throws IOException {
-//        ableToType(true);
-        do {
-            try {
-                message = (String) input.readObject();
-//                showMessage("\n" + message);
-            } catch (ClassNotFoundException e) {
-//                showMessage("I do not know that object type");
-            }
-        } while (!message.equals("SERVER - END"));
-    }
 
-    //close the streams and sockets
-    private static void closeConnection() {
+    private static void closeConnection() { //close the streams and sockets
         try {
             output.close();
             input.close();
@@ -120,39 +69,5 @@ public class Client extends Application {
         primaryStage.setTitle("Client");
         primaryStage.show();
     }
-
-    //send messages to the server
-//    private void sendMessage(String message) {
-//        try {
-//            output.writeObject("CLIENT - " + message);
-//            output.flush();
-//            showMessage("\nCLIENT - " + message);
-//        } catch (IOException e) {
-//            chatWindow.append("\n Something went wrong!");
-//        }
-//    }
-
-//    //change/update chatWindow
-//    private void showMessage(final String message) {
-//        SwingUtilities.invokeLater(
-//                new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        chatWindow.append(message);
-//                    }
-//                }
-//        );
-//    }
-
-    //gives user permission to type into the text box
-//    private void ableToType(final boolean tof) {
-//        SwingUtilities.invokeLater(
-//                new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        userText.setEditable(tof);
-//                    }
-//                }
-//        );
-//    }
 }
+

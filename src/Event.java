@@ -2,7 +2,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class Event {
-    // 0 kendisi 1 enemy
+    // This class is not being used right now It might be later in some time
     private final String eventDeath = "Death";
     private final String eventAttack = "Attack";
     private final String eventDefense = "Defense";
