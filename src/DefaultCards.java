@@ -72,7 +72,7 @@ public class DefaultCards {
     private Card slapsRoof = new Card("Slaps roof","Images/SlapsRoof.png", 4,2,4,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DamageTarget",2)));
     private Card confusedGandalf = new Card("Confused Gandalf","Images/ConfusedGandalf.png" ,2,1,2,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DamageRandomTargets",3,1)));
     private Card screamingPatrick = new Card("Screaming Patrick","Images/ScreamingPatrick.png", 1,1,1,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DamageEveryone",1)));
-    private Card chuckles = new Card("Chuckles","Images/Chuckles.png", 1,1,1,"BC", false,false,true,true, null);
+    private Card chuckles = new Card("Chuckles","Images/ImInDanger.png", 1,1,1,"BC", false,false,true,true, null);
     private Card oprah = new Card("Oprah","Images/Oprah.png",5,4,8,"DR", false,false,true,true,  new ArrayList<>(Arrays.asList("DamageEveryone",1)));
     private Card fuckMeRight = new Card("**** Me Right","Images/FuckMeRight.png", 5,6,12,"DR", false,false,true,true,  new ArrayList<>(Arrays.asList("DestroyRandom",1)));
     private Card sike = new Card("Sike","Images/SikeNigga.png", 4 ,3,2,"DR", false,false,true,true,  new ArrayList<>(Arrays.asList("SpawnMinion",1,3,2)));
@@ -92,7 +92,7 @@ public class DefaultCards {
     private Card doge = new Card("Doge ","Images/Doge.png", 1 ,2,1,"NaN", false,false,true,true,  null);
     private Card cat = new Card("Cat ","Images/Cat.png", 1 ,2,1,"NaN", false,false,true,true,  null);
     private Card tooDamn = new Card("Too Damn High ","Images/TooDamnHigh.png", 6 ,2,6,"NaN", false,false,true,true,  null);
-    private Card hereIs = new Card("Here is Johnny ","Images/HeresJonny.png", 2 ,3,1,"NaN", false,true,true,true,  null);
+    private Card hereIs = new Card("Here is Johnny ","Images/HeresJohnny.png", 2 ,3,1,"NaN", false,true,true,true,  null);
     private Card gollum = new Card("Gollum ","Images/Gollum.png", 3 ,2,3,"NaN", false,false,true,true,  null);
     private Card obiWann = new Card("Obi Wann ","Images/ObiWann.png", 5 ,5,5,"NaN", false,false,true,true,  null);
     private Card bender = new Card("Bender","Images/Bender.png", 2 ,1,3,"NaN", false,false,true,true,  null);
