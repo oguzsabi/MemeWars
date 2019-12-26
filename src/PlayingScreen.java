@@ -48,50 +48,9 @@ public class PlayingScreen implements Initializable {
     String selectedStyle = "-fx-border-color: #0066ff; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
     String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
 
-    public void loadCard(ActionEvent event) {
-//        try {
-////                Pane soAnyWay = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
-////                Pane itsRaw = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
-//
-////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
-////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
-////            getCardImage(myPlayedCards.getChildren().get(1)).setImage(urlToImage("Images/Kobe.png"));
-////            getCardAttack(myPlayedCards.getChildren().get(1)).setText();
-////            getCardHealth(myPlayedCards.getChildren().get(1));
-////            getCardNameLabel(myPlayedCards.getChildren().get(1));
-//
-////            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 0, 0);
-////            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
-////            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
-////            opponentPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
-////            opponentPlayedCards.add(setCardDetails("3", "1", "ANANI", "Images/BadLuckBrian.png"), 4, 0);
-//////            opponentPlayedCards.add(, 4, 0);
-////            getCardNameLabel(opponentPlayedCards.getChildren().get(1)).setText("I wanna die");
-////            getCardAttack(opponentPlayedCards.getChildren().get(1)).setText("3");
-////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 1, 0);
-////
-////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 2, 0);
-////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 3, 0);
-////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 4, 0);
-////            myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
-////                myPlayedCards.add(FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml")), 5, 0);
-//
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 4, 0);
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 5, 0);
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 6, 0);
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 7, 0);
-////            myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 8, 0);
-////                ((VBox) otherPane.getChildren().get(0)).fillWidthProperty().bind(otherPane.getWidth());
-////                System.out.println(getCardHealth(myPlayedCards.getChildren().get(0)).getText());
-////                System.out.println(getCardNameLabel(myPlayedCards.getChildren().get(3)).getText());
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    @FXML
+    private void bigYeet() {
+
     }
 
     public void putCardFromMyHandToMyTable() {
@@ -192,9 +151,6 @@ public class PlayingScreen implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        loadCard(event);
-//        setMyPlayedCardsListener();
-//        setMyHandListener();
     }
 
     private void setMyPlayedCardsListener() {
@@ -441,8 +397,6 @@ public class PlayingScreen implements Initializable {
         opponentPlayedCards.setDisable(true);
 
         try {
-
-
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 0, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 1, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 2, 0);
