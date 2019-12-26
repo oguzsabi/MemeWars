@@ -365,6 +365,11 @@ public class PlayingScreen implements Initializable {
         return ((Label) ((FlowPane) ((GridPane) vBox.getChildren().get(2)).getChildren().get(1)).getChildren().get(0));
     }
 
+    private Label getCardBanana(Node Card) {
+        VBox vBox = (VBox) Card;
+        return ((Label) ((FlowPane) ((GridPane) vBox.getChildren().get(2)).getChildren().get(2)).getChildren().get(1));
+    }
+
     private void listenToOtherPlayer() {
         Task task = new Task<Void>() {
             @Override
