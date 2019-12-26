@@ -32,7 +32,7 @@
       </GridPane>
       <ImageView cache="true" cacheHint="SCALE" fitHeight="66.0" fitWidth="84.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
          <image>
-            <Image url="@Images/itsRaw.jpg" />
+            <Image url="@Images/ItsRaw.jpg" />
          </image>
          <viewport>
             <Rectangle2D />

@@ -36,7 +36,7 @@
             <Insets bottom="8.0" left="1.0" right="1.0" top="8.0" />
          </VBox.margin>
          <image>
-            <Image url="@Images/itsRaw.jpg" />
+            <Image url="@Images/ItsRaw.jpg" />
          </image>
          <viewport>
             <Rectangle2D />

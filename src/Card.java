@@ -6,6 +6,7 @@ public class Card {
     private int damage;
     private int health;
     private String effectType;
+    private String cardURL;
     private boolean attackable;
     private boolean active;
     private boolean effectNotActivated;
@@ -13,7 +14,7 @@ public class Card {
     private Card target;
     private ArrayList<Object> effectDetails;
 
-    public Card(String cardName, int banana, int damage, int health, String effectType, boolean attackable, boolean active, boolean effectNotActivated, boolean firstTimePlayed, ArrayList<Object> effectDetails) {
+    public Card(String cardName, String cardURL, int banana, int damage, int health, String effectType, boolean attackable, boolean active, boolean effectNotActivated, boolean firstTimePlayed, ArrayList<Object> effectDetails) {
         this.cardName = cardName;
         this.banana = banana;
         this.damage = damage;
@@ -24,18 +25,20 @@ public class Card {
         this.effectNotActivated = effectNotActivated;
         this.firstTimePlayed = firstTimePlayed;
         this.effectDetails = effectDetails;
+        this.cardURL = cardURL;
     }
 
     public Card(ArrayList<Object> cardDetails) {
         this.cardName = (String) cardDetails.get(0);
-        this.banana = (int) cardDetails.get(1);
-        this.damage = (int) cardDetails.get(2);
-        this.health = (int) cardDetails.get(3);
-        this.effectType = (String)cardDetails.get(4);
-        this.attackable = (boolean) cardDetails.get(5);
-        this.active = (boolean) cardDetails.get(6);
-        this.effectNotActivated = (boolean)cardDetails.get(7);
-        this.effectDetails = (ArrayList<Object>) cardDetails.get(8);
+        this.cardURL = (String) cardDetails.get(1);
+        this.banana = (int) cardDetails.get(2);
+        this.damage = (int) cardDetails.get(3);
+        this.health = (int) cardDetails.get(4);
+        this.effectType = (String)cardDetails.get(5);
+        this.attackable = (boolean) cardDetails.get(6);
+        this.active = (boolean) cardDetails.get(7);
+        this.effectNotActivated = (boolean)cardDetails.get(8);
+        this.effectDetails = (ArrayList<Object>) cardDetails.get(9);
     }
 
     public int getBanana() {
@@ -116,6 +119,14 @@ public class Card {
 
     public void setFirstTimePlayed(boolean firstTimePlayed) {
         this.firstTimePlayed = firstTimePlayed;
+    }
+
+    public String getCardURL() {
+        return cardURL;
+    }
+
+    public void setCardURL(String cardURL) {
+        this.cardURL = cardURL;
     }
 
     @Override

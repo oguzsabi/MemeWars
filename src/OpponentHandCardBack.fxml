@@ -12,7 +12,7 @@
    <children>
       <ImageView fitHeight="119.0" fitWidth="123.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
          <image>
-            <Image url="@Images/cardBack.png" />
+            <Image url="@Images/CardBack.png" />
          </image>
       </ImageView>
    </children>

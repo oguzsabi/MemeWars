@@ -40,7 +40,7 @@
                         <DropShadow />
                      </effect>
                      <image>
-                        <Image url="@Images/soAnyWay.png" />
+                        <Image url="@Images/SoAnyWay.png" />
                      </image></ImageView>
                   <Circle radius="36.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="ROUND" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <fill>
@@ -194,12 +194,12 @@
                               <Insets />
                            </GridPane.margin>
                            <image>
-                              <Image url="@Images/cardBack.png" />
+                              <Image url="@Images/CardBack.png" />
                            </image>
                         </ImageView>
                         <ImageView fx:id="upperCardBack" fitHeight="150.0" fitWidth="104.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <image>
-                              <Image url="@Images/cardBack.png" />
+                              <Image url="@Images/CardBack.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -210,7 +210,7 @@
                <children>
                   <ImageView fitHeight="77.0" fitWidth="145.0" pickOnBounds="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <image>
-                        <Image url="@Images/itsRaw.jpg" />
+                        <Image url="@Images/ItsRaw.jpg" />
                      </image>
                      <effect>
                         <DropShadow />
