@@ -39,6 +39,7 @@ public class PlayingScreen implements Initializable {
     boolean selectedFromTable = false;
     boolean selectedFromOpponent = false;
     boolean myTurn = false;
+    int turnCounter = 1;
     boolean[] emptyIndexOnMyTable = {true, true, true, true, true, true};
     boolean[] emptyIndexOnOppTable = {true, true, true, true, true, true};
     boolean[] emptyIndexOnMyHand = {false, false, false, false, false, true, true, true, true, true};
@@ -63,7 +64,12 @@ public class PlayingScreen implements Initializable {
             }
         }
 
-        if (emptySpaceExists) {
+        int cardBanana = Integer.parseInt(getCardBanana(selectedCard).getText());
+        int myBnn = Integer.parseInt(myBanana.getText());
+
+        boolean bananaCondition = cardBanana <= myBnn;
+        if (emptySpaceExists && bananaCondition) {
+            myBanana.setText(Integer.toString(myBnn - cardBanana));
             if (selectedFromHand) {
                 myHand.getChildren().remove(selectedCard);
                 for (int emptyIndex = 0; emptyIndex < emptyIndexOnMyTable.length; emptyIndex++) {
@@ -87,7 +93,6 @@ public class PlayingScreen implements Initializable {
 
                 if (isServer) {
                     try {
-
                         Server.output.writeObject(eventDetails);
                         Server.output.flush();
                     } catch (IOException e) {
@@ -140,6 +145,26 @@ public class PlayingScreen implements Initializable {
         endTurnButton.setDisable(true);
         myPlayedCards.setDisable(true);
         myHand.setDisable(true);
+
+        if (isServer) {
+            if (turnCounter < 10) {
+                opponentBanana.setText(Integer.toString(turnCounter));
+                myBanana.setText(Integer.toString(++turnCounter));
+            } else {
+                opponentBanana.setText("10");
+                myBanana.setText("10");
+            }
+        } else {
+            if (turnCounter < 10) {
+                int tmp = turnCounter;
+                opponentBanana.setText(Integer.toString(++tmp));
+                myBanana.setText(Integer.toString(++turnCounter));
+            } else {
+                opponentBanana.setText("10");
+                myBanana.setText("10");
+            }
+        }
+
         try {
             if (isServer) {
                 Server.output.writeObject("end_turn");
@@ -213,8 +238,6 @@ public class PlayingScreen implements Initializable {
                         vBox.setStyle(selectedStyle);
 
                         putCardFromMyHandToMyTable();
-
-
                     } else {
                         VBox vBox = (VBox) selectedCard;
                         vBox.setStyle(notSelectedStyle);
