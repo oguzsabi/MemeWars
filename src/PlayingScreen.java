@@ -455,8 +455,12 @@ public class PlayingScreen implements Initializable {
             }
 
             for (int i = 0; i < 5; i++) {
-
-                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 0, 0);
+                Node handCard = FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml"));
+                getCardNameLabel(handCard).setText(Integer.toString(myDeck.get(i).getHealth()));
+                getCardImage(handCard).setImage(urlToImage(myDeck.get(i).getCardURL()));
+                getCardDamage(handCard).setText(Integer.toString(myDeck.get(i).getDamage()));
+                getCardHealth(handCard).setText(Integer.toString(myDeck.get(i).getHealth()));
+                myHand.add(handCard, i, 0);
 //                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 1, 0);
 //                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 2, 0);
 //                myHand.add(FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml")), 3, 0);
