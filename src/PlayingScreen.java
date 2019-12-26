@@ -100,7 +100,7 @@ public class PlayingScreen implements Initializable {
                     }
                 }
 
-                String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().getUrl().split("/"); // Gets the image of the card
+                String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().getUrl().split("/"); // Gets the image path of the card
                 final String imageRelativePath = imageAbsolutePathArray[imageAbsolutePathArray.length - 2] + "/" + imageAbsolutePathArray[imageAbsolutePathArray.length - 1];
 
                 String eventDetails = "card_play,";
@@ -144,7 +144,7 @@ public class PlayingScreen implements Initializable {
         }
 
         if (emptySpaceExists) {
-            emptyIndexOnOppHand[opponentHand.getChildren().size() - 2] = true;
+            emptyIndexOnOppHand[opponentHand.getChildren().size() - 1] = true;
             opponentHand.getChildren().remove(opponentHand.getChildren().size() - 1);
 
             for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppTable.length; emptyIndex++) {
@@ -174,9 +174,9 @@ public class PlayingScreen implements Initializable {
             for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppHand.length; emptyIndex++) {
                 if (emptyIndexOnOppHand[emptyIndex]) {
                     try {
-                        Node cardBack = FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml"));
-                        opponentHand.add(cardBack, emptyIndex, 0);
-                        emptyIndexOnOppHand[emptyIndex] = false;
+                        Node cardBack = FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")); // Adds a card back picture to Opponents Hand
+                        opponentHand.add(cardBack, emptyIndex - 1, 0);
+                        emptyIndexOnOppHand[emptyIndex - 1] = false;
                         break;
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -186,19 +186,19 @@ public class PlayingScreen implements Initializable {
         }
 
         if (isServer) {
-            if (turnCounter < 10) {
+            if (turnCounter < 10) { // Banana value will be increase until 10 and will be reset after each round
                 opponentBanana.setText(Integer.toString(turnCounter));
                 myBanana.setText(Integer.toString(++turnCounter));
-            } else {
+            } else { // Banana value is capped at 10
                 opponentBanana.setText("10");
                 myBanana.setText("10");
             }
         } else {
-            if (turnCounter < 10) {
+            if (turnCounter < 10) { // Banana value will be increase until 10 and will be reset after each round
                 int tmp = turnCounter;
                 opponentBanana.setText(Integer.toString(++tmp));
                 myBanana.setText(Integer.toString(++turnCounter));
-            } else {
+            } else { // Banana value is capped at 10
                 opponentBanana.setText("10");
                 myBanana.setText("10");
             }
@@ -206,10 +206,10 @@ public class PlayingScreen implements Initializable {
 
         try {
             if (isServer) {
-                Server.output.writeObject("end_turn");
+                Server.output.writeObject("end_turn"); // sending the end turn information to opponent
                 Server.output.flush();
             } else {
-                Client.output.writeObject("end_turn");
+                Client.output.writeObject("end_turn"); // sending the end turn information to opponent
                 Client.output.flush();
             }
         } catch (IOException e) {
@@ -224,8 +224,8 @@ public class PlayingScreen implements Initializable {
                     if (!aCardIsSelected) {
                         selectedCard = node;
 
-                        myHand.setDisable(true);
-                        opponentPlayedCards.setDisable(false);
+                        myHand.setDisable(true); // MyHand set Disable because next card should be selected form the opponents hand in order to attack
+                        opponentPlayedCards.setDisable(false); // Opponents Card are now clickable and can be attacked
 
                         aCardIsSelected = true;
                         setOpponentPlayedCardsListener();
@@ -271,12 +271,12 @@ public class PlayingScreen implements Initializable {
                         selectedCard = node;
                         aCardIsSelected = true;
                         selectedFromHand = true;
-                        opponentPlayedCards.setDisable(true);
+                        opponentPlayedCards.setDisable(true); // Opponents played cards disabled because Player can not play a card to opponent field
 
                         VBox vBox = (VBox) node;
                         vBox.setStyle(selectedStyle);
 
-                        putCardFromMyHandToMyTable();
+                        putCardFromMyHandToMyTable(); // Playing the card to the field
                     } else {
                         VBox vBox = (VBox) selectedCard;
                         vBox.setStyle(notSelectedStyle);
@@ -293,7 +293,7 @@ public class PlayingScreen implements Initializable {
     }
 
     private void setOpponentPlayedCardsListener() {
-        for (Node node : opponentPlayedCards.getChildren()) {
+        for (Node node : opponentPlayedCards.getChildren()) { // adds listener to each opponent card
             node.setOnMouseClicked((MouseEvent e) -> {
                 if (e.getButton() == MouseButton.PRIMARY) {
                     if (selectedFromTable && !selectedFromOpponent) {
@@ -301,14 +301,14 @@ public class PlayingScreen implements Initializable {
                         vBox.setStyle(selectedStyle);
                         selectedFromOpponent = true;
 
-                        getCardHealth(node).setText(String.valueOf(Integer.parseInt(getCardHealth(node).getText()) - Integer.parseInt(getCardDamage(selectedCard).getText())));
-                        getCardHealth(selectedCard).setText(String.valueOf(Integer.parseInt(getCardHealth(selectedCard).getText()) - Integer.parseInt(getCardDamage(node).getText())));
-                        if (Integer.parseInt(getCardHealth(node).getText()) <= 0) {
+                        getCardHealth(node).setText(String.valueOf(Integer.parseInt(getCardHealth(node).getText()) - Integer.parseInt(getCardDamage(selectedCard).getText()))); // Dealing damage with selected card to opponent card
+                        getCardHealth(selectedCard).setText(String.valueOf(Integer.parseInt(getCardHealth(selectedCard).getText()) - Integer.parseInt(getCardDamage(node).getText()))); // Selected cards getting damaged by oppponent card
+                        if (Integer.parseInt(getCardHealth(node).getText()) <= 0) { // If opponent card dies
                             opponentPlayedCards.getChildren().remove(node);
                             selectedFromOpponent = false;
                         }
 
-                        if (Integer.parseInt(getCardHealth(selectedCard).getText()) <= 0) {
+                        if (Integer.parseInt(getCardHealth(selectedCard).getText()) <= 0) { // If Selected card dies
                             emptyIndexOnMyTable[myPlayedCards.getChildren().indexOf(selectedCard) - 1] = true;
                             myPlayedCards.getChildren().remove(selectedCard);
                             myHand.setDisable(false);
@@ -320,7 +320,7 @@ public class PlayingScreen implements Initializable {
         }
     }
 
-    private void disableOpponentPlayedCardListener() {
+    private void  disableOpponentPlayedCardListener() {
         selectedFromOpponent = false;
         for (Node node : opponentPlayedCards.getChildren()) {
             try  {
@@ -335,6 +335,7 @@ public class PlayingScreen implements Initializable {
 
     private Node setCardDetails(String name, String imageURL, String attack, String health) {
         try {
+            // Creating the card with the information passed from the socket
             Node newCard = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
             getCardDamage(newCard).setText(attack);
             getCardHealth(newCard).setText(health);
@@ -351,6 +352,7 @@ public class PlayingScreen implements Initializable {
 
     private Node setCardDetails(Node card) {
         try {
+            // Creating the card from the hand
             Node newCard = FXMLLoader.load(getClass().getResource("CardLayoutTable.fxml"));
             getCardDamage(newCard).setText(getCardDamage(card).getText());
             getCardHealth(newCard).setText(getCardHealth(card).getText());
@@ -364,7 +366,7 @@ public class PlayingScreen implements Initializable {
 
         return null;
     }
-
+    // Getters and Setters
     private Label getCardNameLabel(Node Card) {
         VBox vBox = (VBox) Card;
         return ((Label) ((GridPane) vBox.getChildren().get(0)).getChildren().get(0));
@@ -393,15 +395,16 @@ public class PlayingScreen implements Initializable {
         VBox vBox = (VBox) Card;
         return ((Label) ((FlowPane) ((GridPane) vBox.getChildren().get(2)).getChildren().get(2)).getChildren().get(1));
     }
-
-    // This method creates a thread that runs in the background and listens for messages sent by the other player.
+    
     private void listenToOtherPlayer() {
         Task task = new Task<Void>() {
             @Override
             public Void call() {
                 while (true) {
                     if (isServer) {
+                        // Server Listening
                         try {
+                            // Action Cases
                             System.out.println("in server");
                             final String message = (String) Server.input.readObject();
                             System.out.println(message);
@@ -421,7 +424,9 @@ public class PlayingScreen implements Initializable {
                             break;
                         }
                     } else {
+                        // Client Listening
                         try {
+                            // Action Cases
                             System.out.println("in client");
                             final String message = (String) Client.input.readObject();
                             if (message.equals("end_turn")) {
@@ -467,6 +472,7 @@ public class PlayingScreen implements Initializable {
         opponentPlayedCards.setDisable(true);
 
         try {
+            // adds 5 card back to opponent hand
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 0, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 1, 0);
             opponentHand.add(FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")), 2, 0);
@@ -475,11 +481,13 @@ public class PlayingScreen implements Initializable {
 
             Deck deck = new Deck();
             if (isServer) {
+                // Hero pictures set for server side
                 myHero.setImage(new Image("Images/KeanuReeves.png"));
                 opponentHero.setImage(new Image("Images/PewDiePie.png"));
                 myTurn = true;
                 myDeck = deck.getDeck1();
             } else {
+                // Hero pictures set for client side
                 opponentHero.setImage(new Image("Images/KeanuReeves.png"));
                 myHero.setImage(new Image("Images/PewDiePie.png"));
                 myPlayedCards.setDisable(true);
@@ -489,6 +497,7 @@ public class PlayingScreen implements Initializable {
             }
 
             for (int i = 0; i < 5; i++) {
+                // Gets 5 card from the deck and adds those cards to the hand
                 Node handCard = FXMLLoader.load(getClass().getResource("CardLayoutHand.fxml"));
                 getCardNameLabel(handCard).setText(myDeck.get(0).getCardName());
                 getCardImage(handCard).setImage(urlToImage(myDeck.get(0).getCardURL()));
@@ -496,6 +505,7 @@ public class PlayingScreen implements Initializable {
                 getCardHealth(handCard).setText(Integer.toString(myDeck.get(0).getHealth()));
                 getCardBanana(handCard).setText(Integer.toString(myDeck.get(0).getBanana()));
                 myHand.add(handCard, i, 0);
+                //Removing the card from the deck
                 myDeck.remove(myDeck.get(0));
             }
 
