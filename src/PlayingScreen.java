@@ -558,10 +558,10 @@ public class PlayingScreen implements Initializable {
         getCardHealth(attacker).setText(String.valueOf(Integer.parseInt(getCardHealth(attacker).getText()) - Integer.parseInt(getCardDamage(defender).getText())));
 
         if(Integer.parseInt(getCardHealth(defender).getText()) <= 0){
-            opponentPlayedCards.getChildren().remove(defender);
+            myPlayedCards.getChildren().remove(defender);
         }
         if(Integer.parseInt(getCardHealth(attacker).getText()) <= 0) {
-            myPlayedCards.getChildren().remove(attacker);
+            opponentPlayedCards.getChildren().remove(attacker);
         }
 
     }
