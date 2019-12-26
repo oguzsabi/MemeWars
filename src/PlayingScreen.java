@@ -84,6 +84,7 @@ public class PlayingScreen implements Initializable {
 
         int cardBanana = Integer.parseInt(getCardBanana(selectedCard).getText());
         int myBnn = Integer.parseInt(myBanana.getText());
+        String bananaCost = "";
 
         boolean bananaCondition = cardBanana <= myBnn; // Card can be played only if your Banana value is greater or equals to Banana value you have
         if (emptySpaceExists && bananaCondition) {
@@ -93,6 +94,7 @@ public class PlayingScreen implements Initializable {
                 for (int emptyIndex = 0; emptyIndex < emptyIndexOnMyTable.length; emptyIndex++) {
                     if (emptyIndexOnMyTable[emptyIndex]) {
                         selectedCard.setStyle(notSelectedStyle);
+                        bananaCost = getCardBanana(selectedCard).getText();
                         selectedCard = setCardDetails(selectedCard);
                         myPlayedCards.add(selectedCard, emptyIndex, 0); // Putting the card to the field
                         emptyIndexOnMyTable[emptyIndex] = false; // Changing the spot full
@@ -107,7 +109,8 @@ public class PlayingScreen implements Initializable {
                 eventDetails += getCardNameLabel(selectedCard).getText() + ",";
                 eventDetails += imageRelativePath + ",";
                 eventDetails += getCardDamage(selectedCard).getText() + ",";
-                eventDetails += getCardHealth(selectedCard).getText();
+                eventDetails += getCardHealth(selectedCard).getText() + ",";
+                eventDetails += bananaCost;
 
                 if (isServer) {
                     try {
@@ -151,6 +154,7 @@ public class PlayingScreen implements Initializable {
                 if (emptyIndexOnOppTable[emptyIndex]) {
                     Node newCard;
                     newCard = setCardDetails(eventDetails[1], eventDetails[2], eventDetails[3], eventDetails[4]);
+
                     opponentPlayedCards.add(newCard, emptyIndex, 0);
                     emptyIndexOnOppTable[emptyIndex] = false;
                     break;
@@ -460,6 +464,7 @@ public class PlayingScreen implements Initializable {
             @Override
             public void run() {
                 if (eventDetails[0].equals("card_play")) {
+                    opponentBanana.setText(Integer.toString(Integer.parseInt(opponentBanana.getText()) - Integer.parseInt(eventDetails[5])));
                     putCardFromOppHandToOppTable(eventDetails);
                 }
             }
