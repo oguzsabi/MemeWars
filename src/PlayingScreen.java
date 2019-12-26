@@ -33,18 +33,16 @@ public class PlayingScreen implements Initializable {
     @FXML private Label myHealth;
     @FXML private ImageView opponentHero;
     @FXML private ImageView myHero;
-    ArrayList<Node> myHandList = new ArrayList<>();
     static boolean isServer = false;
     boolean aCardIsSelected = false;
     boolean selectedFromHand = false;
     boolean selectedFromTable = false;
     boolean selectedFromOpponent = false;
     int turnCounter = 1;
-    boolean[] emptyIndexOnMyTable = {true, true, true, true, true, true};
-    boolean[] emptyIndexOnOppTable = {true, true, true, true, true, true};
-    boolean[] emptyIndexOnMyHand = {false, false, false, false, false, true, true, true, true, true};
-    boolean[] emptyIndexOnOppHand = {false, false, false, false, false, true, true, true, true, true};
     ArrayList<Card> myDeck;
+    ArrayList<Node> myHandList = new ArrayList<>();
+    ArrayList<Node> myPlayedList = new ArrayList<>();
+    ArrayList<Node> oppPlayedList = new ArrayList<>();
     Node selectedCard = null;
     String selectedStyle = "-fx-border-color: #0066ff; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
     String notSelectedStyle = "-fx-border-color: #000; -fx-border-width: 4; -fx-background-color: #A6A6A6;";
@@ -75,61 +73,78 @@ public class PlayingScreen implements Initializable {
     @FXML
     private void clickToHero(){
         if(selectedFromTable) {
-            opponentHealth.setText(String.valueOf(Integer.parseInt(opponentHealth.getText())- Integer.parseInt(getCardDamage(selectedCard).getText())));
+            opponentHealth.setText(String.valueOf(Integer.parseInt(opponentHealth.getText()) - Integer.parseInt(getCardDamage(selectedCard).getText())));
+
+            if (Integer.parseInt(opponentHealth.getText()) <= 0) {
+                bigYeet();
+            }
+
             try{
-                if(isServer){
+                if(isServer) {
                     String eventDetails;
                     eventDetails = "hit_hero,";
                     eventDetails += getCardDamage(selectedCard).getText();
+
+                    aCardIsSelected = false;
+                    selectedFromTable = false;
                     selectedCard.setStyle(notSelectedStyle);
-                    selectedCard = null;
+                    selectedCard.setDisable(true);
+                    myHand.setDisable(false);
+
                     Server.output.writeObject(eventDetails);
                     Server.output.flush();
-                }
-                else{
+                } else {
                     String eventDetails;
                     eventDetails = "hit_hero,";
                     eventDetails += getCardDamage(selectedCard).getText();
-                    selectedCard = null;
+
+                    aCardIsSelected = false;
+                    selectedFromTable = false;
+                    selectedCard.setStyle(notSelectedStyle);
+                    selectedCard.setDisable(true);
+                    myHand.setDisable(false);
+
                     Client.output.writeObject(eventDetails);
                     Client.output.flush();
                 }
-            }catch (IOException e){
+            } catch (IOException e){
                 e.printStackTrace();
             }
         }
     }
 
+    private void setMyPlayedCardsEnabled() {
+        for (Node node: myPlayedCards.getChildren())
+            node.setDisable(false);
+    }
+
+    private void setOppPlayedCardsEnabled() {
+        for (Node node: opponentPlayedCards.getChildren())
+            node.setDisable(false);
+    }
+
     public void putCardFromMyHandToMyTable() {
-        boolean emptySpaceExists = false;
-
-        for (boolean empty: emptyIndexOnMyTable) { // Finding the available space for card to be put
-            if (empty) {
-                emptySpaceExists = true;
-                break;
-            }
-        }
-
         int cardBanana = Integer.parseInt(getCardBanana(selectedCard).getText());
         int myBnn = Integer.parseInt(myBanana.getText());
         String bananaCost = "";
 
         boolean bananaCondition = cardBanana <= myBnn; // Card can be played only if your Banana value is greater or equals to Banana value you have
-        if (emptySpaceExists && bananaCondition) {
+        if (myHand.getChildren().size() < 11 && bananaCondition) {
+            opponentPlayedCards.setDisable(false);
             myBanana.setText(Integer.toString(myBnn - cardBanana)); // Decrementing the banana value by the played cards banana value
             if (selectedFromHand) {
-                emptyIndexOnMyHand[myHand.getChildren().indexOf(selectedCard) - 1] = true;
-                myHand.getChildren().remove(selectedCard); // Removes the card from the hand
-                for (int emptyIndex = 0; emptyIndex < emptyIndexOnMyTable.length; emptyIndex++) {
-                    if (emptyIndexOnMyTable[emptyIndex]) {
-                        selectedCard.setStyle(notSelectedStyle);
-                        bananaCost = getCardBanana(selectedCard).getText();
-                        selectedCard = setCardDetails(selectedCard);
-                        myPlayedCards.add(selectedCard, emptyIndex, 0); // Putting the card to the field
-                        emptyIndexOnMyTable[emptyIndex] = false; // Changing the spot full
-                        break;
-                    }
+                myHand.getChildren().remove(1, myHand.getChildren().size()); // Removes the card from the hand
+                myHandList.remove(selectedCard);
+
+                for (int i = 0; i < myHandList.size(); i++) {
+                    myHand.add(myHandList.get(i), i, 0);
                 }
+
+                selectedCard.setStyle(notSelectedStyle);
+                bananaCost = getCardBanana(selectedCard).getText();
+                selectedCard = setCardDetails(selectedCard);
+                myPlayedCards.add(selectedCard, myPlayedCards.getChildren().size() - 1, 0); // Putting the card to the field
+                myPlayedList.add(selectedCard);
 
                 String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().getUrl().split("/"); // Gets the image path of the card
                 final String imageRelativePath = imageAbsolutePathArray[imageAbsolutePathArray.length - 2] + "/" + imageAbsolutePathArray[imageAbsolutePathArray.length - 1];
@@ -166,61 +181,25 @@ public class PlayingScreen implements Initializable {
     }
 
     public void putCardFromOppHandToOppTable(String[] eventDetails) {
-        boolean emptySpaceExists = false;
-
-        for (boolean empty: emptyIndexOnOppTable) { // Finds the empty space at field
-            if (empty) {
-                emptySpaceExists = true;
-                break;
-            }
-        }
-
-        if (emptySpaceExists) {
-            emptyIndexOnOppHand[opponentHand.getChildren().size() - 2] = true;
             opponentHand.getChildren().remove(opponentHand.getChildren().size() - 1);
+            Node newCard;
+            newCard = setCardDetails(eventDetails[1], eventDetails[2], eventDetails[3], eventDetails[4]);
+            opponentPlayedCards.add(newCard, opponentPlayedCards.getChildren().size() - 1, 0);
+            oppPlayedList.add(newCard);
 
-            for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppTable.length; emptyIndex++) {
-                if (emptyIndexOnOppTable[emptyIndex]) {
-                    Node newCard;
-                    newCard = setCardDetails(eventDetails[1], eventDetails[2], eventDetails[3], eventDetails[4]);
-
-                    opponentPlayedCards.add(newCard, emptyIndex, 0);
-                    emptyIndexOnOppTable[emptyIndex] = false;
-                    break;
-                }
-            }
             setOpponentPlayedCardsListener();
-        }
     }
 
     public void drawCardFromDeck() {
-        boolean emptySpaceExists = false;
-
-        for (boolean empty: emptyIndexOnMyHand) { // Finds the empty space at field
-            if (empty) {
-                emptySpaceExists = true;
-                break;
-            }
-        }
-
-        if (emptySpaceExists) {
-            for (int emptyIndex = 0; emptyIndex < emptyIndexOnMyHand.length; emptyIndex++) {
-                if (emptyIndexOnMyHand[emptyIndex]) {
                     Card cardInfo = myDeck.get(0);
                     myDeck.remove(myDeck.get(0));
                     Node newCard;
                     newCard = setCardDetails(cardInfo.getCardName(), cardInfo.getCardURL(), Integer.toString(cardInfo.getDamage()), Integer.toString(cardInfo.getHealth()), Integer.toString(cardInfo.getBanana()));
-                    myHand.add(newCard, emptyIndex, 0);
+                    myHand.add(newCard, myHand.getChildren().size() - 1, 0);
+                    myHandList.add(newCard);
 //                    myHand.getChildren().remove(1, myHand.getChildren().size());
 //                    myHand.getChildren().addAll(myHandList);
-
-                    emptyIndexOnMyHand[emptyIndex] = false;
-                    break;
-                }
-            }
-
             setMyHandListener();
-        }
     }
 
     public void endTurn(ActionEvent event) {
@@ -229,17 +208,11 @@ public class PlayingScreen implements Initializable {
         myHand.setDisable(true);
 
         if (opponentHand.getChildren().size() < 11) {
-            for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppHand.length; emptyIndex++) {
-                if (emptyIndexOnOppHand[emptyIndex]) {
-                    try {
-                        Node cardBack = FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")); // Adds a card back picture to Opponents Hand
-                        opponentHand.add(cardBack, emptyIndex, 0);
-                        emptyIndexOnOppHand[emptyIndex] = false;
-                        break;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+            try {
+                Node cardBack = FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml")); // Adds a card back picture to Opponents Hand
+                opponentHand.add(cardBack, opponentHand.getChildren().size() - 1, 0);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -284,23 +257,11 @@ public class PlayingScreen implements Initializable {
 
                         myHand.setDisable(true); // MyHand set Disable because next card should be selected form the opponents hand in order to attack
                         opponentPlayedCards.setDisable(false); // Opponents Card are now clickable and can be attacked
+//                        setOppPlayedCardsEnabled();
 
                         aCardIsSelected = true;
                         setOpponentPlayedCardsListener();
                         selectedFromTable = true;
-
-
-                        try {
-                            if (isServer) {
-                                Server.output.writeObject("end turn pressed");
-                                Server.output.flush();
-                            } else {
-                                Client.output.writeObject("end turn pressed");
-                                Client.output.flush();
-                            }
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
 
                         VBox vBox = (VBox) node;
                         vBox.setStyle(selectedStyle);
@@ -354,39 +315,60 @@ public class PlayingScreen implements Initializable {
             node.setOnMouseClicked((MouseEvent e) -> {
                 if (e.getButton() == MouseButton.PRIMARY) {
                     if (selectedFromTable && !selectedFromOpponent) {
-                        VBox vBox = (VBox) node;
-                        vBox.setStyle(selectedStyle);
+//                        VBox vBox = (VBox) node;
+//                        vBox.setStyle(selectedStyle);
                         selectedFromOpponent = true;
                         String eventDetails = "hit_card,";
                         getCardHealth(node).setText(String.valueOf(Integer.parseInt(getCardHealth(node).getText()) - Integer.parseInt(getCardDamage(selectedCard).getText()))); // Dealing damage with selected card to opponent card
                         getCardHealth(selectedCard).setText(String.valueOf(Integer.parseInt(getCardHealth(selectedCard).getText()) - Integer.parseInt(getCardDamage(node).getText()))); // Selected cards getting damaged by oppponent card
-                        // Vurulan kart ismi vuran kart ismi
+                        // Defender and attacker names
                         eventDetails += getCardNameLabel(node).getText() + ",";
                         eventDetails += getCardNameLabel(selectedCard).getText();
 
                         if (Integer.parseInt(getCardHealth(node).getText()) <= 0) { // If opponent card dies
-                            opponentPlayedCards.getChildren().remove(node);
+                            opponentPlayedCards.getChildren().remove(1, opponentPlayedCards.getChildren().size());
+                            oppPlayedList.remove(node);
+
+                            for (int i = 0; i < oppPlayedList.size(); i++) {
+                                opponentPlayedCards.add(oppPlayedList.get(i), i, 0);
+                            }
+
                             selectedFromOpponent = false;
                         }
 
                         if (Integer.parseInt(getCardHealth(selectedCard).getText()) <= 0) { // If Selected card dies
-                            emptyIndexOnMyTable[myPlayedCards.getChildren().indexOf(selectedCard) - 1] = true;
-                            myPlayedCards.getChildren().remove(selectedCard);
+                            myPlayedCards.getChildren().remove(1, myPlayedCards.getChildren().size());
+                            myPlayedList.remove(selectedCard);
+
+                            for (int i = 0; i < myPlayedList.size(); i++) {
+                                myPlayedCards.add(myPlayedList.get(i), i, 0);
+                            }
+
                             myHand.setDisable(false);
                             aCardIsSelected = false;
                         }
+
                         try{
-                            if(isServer){
-                                selectedCard = null;
+                            if(isServer) {
+                                aCardIsSelected = false;
+                                selectedFromTable = false;
+                                selectedCard.setStyle(notSelectedStyle);
+                                selectedCard.setDisable(true);
+                                myHand.setDisable(false);
+
                                 Server.output.writeObject(eventDetails);
                                 Server.output.flush();
-                            }
-                            else{
-                                selectedCard = null;
+                            } else {
+                                aCardIsSelected = false;
+                                selectedFromTable = false;
+                                selectedCard.setStyle(notSelectedStyle);
+                                selectedCard.setDisable(true);
+                                myHand.setDisable(false);
+
                                 Client.output.writeObject(eventDetails);
                                 Client.output.flush();
                             }
-                        }catch (IOException evt){
+                        } catch (IOException evt){
                             evt.printStackTrace();
                         }
                     }
@@ -534,6 +516,9 @@ public class PlayingScreen implements Initializable {
 
     private void heroDamageTaken(String[] eventDetails){
         myHealth.setText(Integer.toString(Integer.parseInt(myHealth.getText()) - Integer.parseInt(eventDetails[1])));
+        if (Integer.parseInt(myHealth.getText()) <= 0) {
+            bigYeet();
+        }
     }
 
     private void cardDamageTaken(String[] eventDetails){
@@ -558,13 +543,24 @@ public class PlayingScreen implements Initializable {
         getCardHealth(attacker).setText(String.valueOf(Integer.parseInt(getCardHealth(attacker).getText()) - Integer.parseInt(getCardDamage(defender).getText())));
 
         if(Integer.parseInt(getCardHealth(defender).getText()) <= 0){
-            myPlayedCards.getChildren().remove(defender);
+            myPlayedCards.getChildren().remove(1, myPlayedCards.getChildren().size());
+            myPlayedList.remove(defender);
+
+            for (int i = 0; i < myPlayedList.size(); i++) {
+                myPlayedCards.add(myPlayedList.get(i), i, 0);
+            }
         }
         if(Integer.parseInt(getCardHealth(attacker).getText()) <= 0) {
-            opponentPlayedCards.getChildren().remove(attacker);
+            opponentPlayedCards.getChildren().remove(1, opponentPlayedCards.getChildren().size());
+            oppPlayedList.remove(attacker);
+
+            for (int i = 0; i < oppPlayedList.size(); i++) {
+                opponentPlayedCards.add(oppPlayedList.get(i), i, 0);
+            }
         }
 
     }
+
     private void updateUIElements(String[] eventDetails) {
         System.out.println("in update ui elements");
         Platform.runLater(new Runnable() {
@@ -581,6 +577,8 @@ public class PlayingScreen implements Initializable {
                         myPlayedCards.setDisable(false);
                         myHand.setDisable(false);
                         endTurnButton.setDisable(false);
+
+                        setMyPlayedCardsEnabled();
                         drawCardFromDeck();
                         break;
                     case "hit_hero":
@@ -597,7 +595,6 @@ public class PlayingScreen implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        opponentHand.setDisable(true);
         opponentPlayedCards.setDisable(true);
 
         try {
