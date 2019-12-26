@@ -160,6 +160,10 @@ public class PlayingScreen implements Initializable {
         }
     }
 
+    public void drawCardFromDeck() {
+
+    }
+
     public void endTurn(ActionEvent event) {
         myTurn = false;
         endTurnButton.setDisable(true);
