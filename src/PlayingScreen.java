@@ -451,9 +451,13 @@ public class PlayingScreen implements Initializable {
 
             Deck deck = new Deck();
             if (isServer) {
+                myHero.setImage(new Image("Images/KeanuReeves.png"));
+                opponentHero.setImage(new Image("Images/PewDiePie.png"));
                 myTurn = true;
                 myDeck = deck.getDeck1();
             } else {
+                opponentHero.setImage(new Image("Images/KeanuReeves.png"));
+                myHero.setImage(new Image("Images/PewDiePie.png"));
                 myPlayedCards.setDisable(true);
                 myHand.setDisable(true);
                 myDeck = deck.getDeck2();
