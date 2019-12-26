@@ -144,7 +144,9 @@ public class PlayingScreen implements Initializable {
         }
 
         if (emptySpaceExists) {
+            emptyIndexOnOppHand[opponentHand.getChildren().size() - 1] = true;
             opponentHand.getChildren().remove(opponentHand.getChildren().size() - 1);
+
             for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppTable.length; emptyIndex++) {
                 if (emptyIndexOnOppTable[emptyIndex]) {
                     Node newCard;
@@ -163,6 +165,21 @@ public class PlayingScreen implements Initializable {
         endTurnButton.setDisable(true);
         myPlayedCards.setDisable(true);
         myHand.setDisable(true);
+
+        if (opponentHand.getChildren().size() < 11) {
+            for (int emptyIndex = 0; emptyIndex < emptyIndexOnOppHand.length; emptyIndex++) {
+                if (emptyIndexOnOppHand[emptyIndex]) {
+                    try {
+                        Node cardBack = FXMLLoader.load(getClass().getResource("OpponentHandCardBack.fxml"));
+                        opponentHand.add(cardBack, emptyIndex - 1, 0);
+                        emptyIndexOnOppHand[emptyIndex - 1] = false;
+                        break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
 
         if (isServer) {
             if (turnCounter < 10) {
@@ -372,7 +389,7 @@ public class PlayingScreen implements Initializable {
         VBox vBox = (VBox) Card;
         return ((Label) ((FlowPane) ((GridPane) vBox.getChildren().get(2)).getChildren().get(2)).getChildren().get(1));
     }
-
+    
     private void listenToOtherPlayer() {
         Task task = new Task<Void>() {
             @Override
