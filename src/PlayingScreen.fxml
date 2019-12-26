@@ -65,12 +65,12 @@
                         </RadialGradient>
                      </fill>
                   </Circle>
-                  <Label text="30" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label fx:id="opponentHealth" text="30" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Georgia Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label text="1" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label fx:id="opponentBanana" text="1" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Georgia Bold" size="18.0" />
                      </font>
@@ -238,12 +238,12 @@
                         </RadialGradient>
                      </fill>
                   </Circle>
-                  <Label text="30" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label fx:id="myHealth" text="30" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Georgia Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label text="1" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label fx:id="myBanana" text="1" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Georgia Bold" size="18.0" />
                      </font>

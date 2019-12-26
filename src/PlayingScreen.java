@@ -27,6 +27,10 @@ public class PlayingScreen implements Initializable {
     @FXML private GridPane myself;
     @FXML private GridPane myHand;
     @FXML private GridPane myPlayedCards;
+    @FXML private Label opponentBanana;
+    @FXML private Label opponentHealth;
+    @FXML private Label myBanana;
+    @FXML private Label myHealth;
     static boolean isServer = false;
     boolean aCardIsSelected = false;
     boolean selectedFromHand = false;

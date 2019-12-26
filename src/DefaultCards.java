@@ -71,7 +71,7 @@ public class DefaultCards {
     private Card itsRaw = new Card("It's Raw","Images/ItsRaw.jpg", 2,2,2,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DecreaseDamageOfTarget",2)));
     private Card slapsRoof = new Card("Slaps roof","Images/SlapsRoof.png", 4,2,4,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DamageTarget",2)));
     private Card confusedGandalf = new Card("Confused Gandalf","Images/ConfusedGandalf.png" ,2,1,2,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DamageRandomTargets",3,1)));
-    private Card screamingPatrick = new Card("Screaming Patrick","Images/ScreamingPatrick", 1,1,1,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DamageEveryone",1)));
+    private Card screamingPatrick = new Card("Screaming Patrick","Images/ScreamingPatrick.png", 1,1,1,"BC", true,false,true,true, new ArrayList<>(Arrays.asList("DamageEveryone",1)));
     private Card chuckles = new Card("Chuckles","Images/Chuckles.png", 1,1,1,"BC", false,false,true,true, null);
     private Card oprah = new Card("Oprah","Images/Oprah.png",5,4,8,"DR", false,false,true,true,  new ArrayList<>(Arrays.asList("DamageEveryone",1)));
     private Card fuckMeRight = new Card("**** Me Right","Images/FuckMeRight.png", 5,6,12,"DR", false,false,true,true,  new ArrayList<>(Arrays.asList("DestroyRandom",1)));
