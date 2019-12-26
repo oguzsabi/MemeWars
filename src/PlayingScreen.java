@@ -111,7 +111,7 @@ public class PlayingScreen implements Initializable {
                     }
                 }
 
-                String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().impl_getUrl().split("/");
+                String[] imageAbsolutePathArray = getCardImage(selectedCard).getImage().getUrl().split("/");
                 final String imageRelativePath = imageAbsolutePathArray[imageAbsolutePathArray.length - 2] + "/" + imageAbsolutePathArray[imageAbsolutePathArray.length - 1];
 
                 String eventDetails = "card_play,";
