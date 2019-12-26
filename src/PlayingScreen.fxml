@@ -35,7 +35,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fitHeight="77.0" fitWidth="145.0" pickOnBounds="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <ImageView fx:id="opponentHero" fitHeight="77.0" fitWidth="145.0" pickOnBounds="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -208,7 +208,7 @@
             </BorderPane>
             <GridPane fx:id="myself" prefHeight="84.0" style="-fx-background-color: #a6a6a6; -fx-border-color: #000;" VBox.vgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="77.0" fitWidth="145.0" pickOnBounds="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <ImageView fx:id="myHero" fitHeight="77.0" fitWidth="145.0" pickOnBounds="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <image>
                         <Image url="@Images/ItsRaw.jpg" />
                      </image>

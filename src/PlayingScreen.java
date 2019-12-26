@@ -31,6 +31,8 @@ public class PlayingScreen implements Initializable {
     @FXML private Label opponentHealth;
     @FXML private Label myBanana;
     @FXML private Label myHealth;
+    @FXML private ImageView opponentHero;
+    @FXML private ImageView myHero;
     static boolean isServer = false;
     boolean aCardIsSelected = false;
     boolean selectedFromHand = false;
