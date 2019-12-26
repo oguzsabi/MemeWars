@@ -192,15 +192,16 @@ public class PlayingScreen implements Initializable {
     }
 
     public void drawCardFromDeck() {
-                    Card cardInfo = myDeck.get(0);
-                    myDeck.remove(myDeck.get(0));
-                    Node newCard;
-                    newCard = setCardDetails(cardInfo.getCardName(), cardInfo.getCardURL(), Integer.toString(cardInfo.getDamage()), Integer.toString(cardInfo.getHealth()), Integer.toString(cardInfo.getBanana()));
-                    myHand.add(newCard, myHand.getChildren().size() - 1, 0);
-                    myHandList.add(newCard);
-//                    myHand.getChildren().remove(1, myHand.getChildren().size());
-//                    myHand.getChildren().addAll(myHandList);
+        if (myHand.getChildren().size() < 11) {
+            Card cardInfo = myDeck.get(0);
+            myDeck.remove(myDeck.get(0));
+            Node newCard;
+            newCard = setCardDetails(cardInfo.getCardName(), cardInfo.getCardURL(), Integer.toString(cardInfo.getDamage()), Integer.toString(cardInfo.getHealth()), Integer.toString(cardInfo.getBanana()));
+            myHand.add(newCard, myHand.getChildren().size() - 1, 0);
+            myHandList.add(newCard);
+
             setMyHandListener();
+        }
     }
 
     public void endTurn(ActionEvent event) {

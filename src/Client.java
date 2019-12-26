@@ -19,7 +19,7 @@ public class Client extends Application {
     public static Socket connection;
 
     public static void main(String[] args) {
-        serverIP = "127.0.0.1";
+        serverIP = "192.168.1.33";
         try {
             connectToServer();
             setupStreams();
