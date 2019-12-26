@@ -389,7 +389,8 @@ public class PlayingScreen implements Initializable {
         VBox vBox = (VBox) Card;
         return ((Label) ((FlowPane) ((GridPane) vBox.getChildren().get(2)).getChildren().get(2)).getChildren().get(1));
     }
-    
+
+    // This method creates a thread that runs in the background and listens for messages sent by the other player.
     private void listenToOtherPlayer() {
         Task task = new Task<Void>() {
             @Override

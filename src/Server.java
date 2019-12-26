@@ -45,27 +45,6 @@ public class Server extends Application {
         }
     }
 
-//    public Server() {
-//        super("My Instant Messenger");
-//        userText = new JTextField();
-//        userText.setEditable(false);
-//        userText.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        sendMessage(e.getActionCommand());
-//                        userText.setText("");
-//                    }
-//                }
-//        );
-//        add(userText, BorderLayout.SOUTH);
-//        chatWindow = new JTextArea();
-//        chatWindow.setEditable(false);
-//        add(new JScrollPane(chatWindow));
-//        setSize(300, 150);
-//        setVisible(true);
-//    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("PlayingScreen.fxml"));
@@ -86,28 +65,6 @@ public class Server extends Application {
             e.printStackTrace();
         }
     }
-
-    //set up and run the server
-//    public void startRunning() {
-//        try {
-//            server = new ServerSocket(6789, 100);
-//            while (true) {
-//                try {
-//                    waitForConnection();
-//                    setupStreams();
-//                    whileChatting();
-//                } catch (EOFException e) {
-////                    showMessage("\n Server ended the connection! ");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    closeCrap();
-//                }
-//            }
-//        } catch (IOException ioException) {
-//            ioException.printStackTrace();
-//        }
-//    }
 
     //wait for connection, then display connection information
     private static void waitForConnection() throws IOException {
@@ -131,18 +88,6 @@ public class Server extends Application {
             connection.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    //send a message to client
-    private void sendMessage(String message) {
-        try {
-            output.writeObject("SERVER - " + message);
-            output.flush();
-
-//            showMessage("\nSERVER - " + message);
-        } catch (IOException e) {
-//            chatWindow.append("\n ERROR: DUDE I CAN'T SEND THAT MESSAGE");
         }
     }
 }
