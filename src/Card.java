@@ -129,6 +129,14 @@ public class Card {
         this.cardURL = cardURL;
     }
 
+    public String getCardName() {
+        return cardName;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+
     @Override
     public String toString() {
         return String.format("Banana: %d, Damage: %d, Health: %d, Effect Type : %s, Attackable: %b, Active: %b", banana, damage, health, effectType, attackable, active);
